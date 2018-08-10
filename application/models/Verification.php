@@ -1,0 +1,53 @@
+<?php
+class Verification extends CI_Model
+{
+	function __construct()
+	{
+		parent::__construct();
+	}
+	function send_verification($email, $nama, $token)
+	{
+		$config = Array(  
+		    'protocol' => 'smtp',  
+		    'smtp_host' => 'ssl://smtp.googlemail.com',  
+		    'smtp_port' => 465,  
+		    'smtp_user' => 'mentoring.its.ac.id@gmail.com',   
+		    'smtp_pass' => 'mentor1ngITS!',   
+		    'mailtype' => 'html',
+		    'charset' => 'iso-8859-1'  
+	   );  
+		$this->load->library('email', $config);  
+		$this->email->set_newline("\r\n");  
+		$this->email->from('mentoring.its.ac.id@gmail.com', 'No Reply ~ Mentoring ITS');   
+		$this->email->to($email);   
+		$this->email->subject('Verifikasi Akun Mentoring ITS');   
+		$this->email->message('Halo '.$nama.', mohon verifikasi alamat email anda dengan cara klik tautan berikut ini.<br><a href="'.base_url('Registrasi/verifikasi/'.$token).'"><b>Klik di sini</b></a><br>Email ini dikirimkan secara otomatis. Mohon tidak membalas ke email ini.');
+	   	if (!$this->email->send())
+		{  
+			return $this->email->print_debugger();   
+		}
+		else
+		{  
+			return 'Success';
+		}
+	}
+	function check_verification($token)
+	{
+		$query = $this->db->query("SELECT NRPmentor FROM simits_mentor WHERE kode_verifikasi = ?", array($token));
+		$result = $query->result();
+		if (count($result) > 0)
+		{
+			foreach ($result as $r)
+			{
+				$this->verify($r->NRPmentor);
+			}
+			return 'Success';
+		}
+		else return 'Failed';
+	}
+	function verify($id)
+	{
+		$query = $this->db->query("UPDATE simits_mentor SET verified = ?, kode_verifikasi = ? WHERE NRPmentor = ?", array(1, NULL, $id));
+	}
+}
+?>
