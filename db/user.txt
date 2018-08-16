@@ -1,6 +1,6 @@
 ADMIN
 aoko
-aoko
+mentor1ngITS!
 
 MENTOR
 mentor
@@ -13,3 +13,7 @@ dosen
 DOSEN PEMBINA
 pembina
 pembina
+
+How to use?
+1. Import SQL
+2. $this->database->up();
