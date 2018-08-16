@@ -35,6 +35,11 @@ class Kelas extends CI_Model
 		$query = $this->db->query("SELECT tahun FROM simits_kelas GROUP BY tahun");
 		return $query->result();
 	}
+	function select_dosen($IDkelas)
+	{
+		$query = $this->db->query("SELECT d.nama AS nama FROM simits_kelas AS k, simits_dosen AS d WHERE k.IDkelas = ? AND k.NIKdosen = d.NIKdosen", array($IDkelas));
+		return $query->result();
+	}
 	function create_kelas($kelas, $dosen, $tahun, $semester)
 	{
 		if ($this->exist_kelas($kelas, $dosen, $tahun, $semester) == false)

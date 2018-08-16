@@ -9,6 +9,7 @@ class Dosen extends CI_Controller
 		$this->load->helper('form');
 		$this->load->library('session');
 		$this->load->model('absen');
+		$this->load->model('berita');
 		$this->load->model('database');
 		$this->load->model('fileabsen');
 		$this->load->model('jadwal');
@@ -37,6 +38,8 @@ class Dosen extends CI_Controller
 			'role' => $this->data['role'],
 			'title' => 'Dashboard',
 			'module' => 'dashboard',
+
+			'berita' => $this->berita->select_berita(5),
 
 			'message' => $this->session->flashdata('message'),
 			'message_bg' => $this->session->flashdata('message_bg')

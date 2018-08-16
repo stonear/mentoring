@@ -80,8 +80,6 @@
   <script src="<?php echo base_url(); ?>asset/plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
   <script src="<?php echo base_url(); ?>asset/plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
   <script src="<?php echo base_url(); ?>asset/plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
-  <!-- JQuery Steps Plugin Js -->
-  <script src="<?php echo base_url(); ?>asset/plugins/jquery-steps/jquery.steps.js"></script>
   <!-- Multi Select Plugin Js -->
   <script src="<?php echo base_url(); ?>asset/plugins/multi-select/js/jquery.multi-select.js"></script>
   <!-- SweetAlert Plugin Js -->

@@ -1,5 +1,55 @@
-<?php $this->load->view('template/head'); ?>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title><?php echo $title; ?> | simITS</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Favicon-->
+  <link rel="icon" href="<?php echo base_url(); ?>asset/favicon.ico" type="image/x-icon">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+  <!-- Bootstrap Core Css -->
+  <link href="<?php echo base_url(); ?>asset/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+  <!-- Bootstrap Select Css -->
+  <link href="<?php echo base_url(); ?>asset/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+  <!-- Waves Effect Css -->
+  <link href="<?php echo base_url(); ?>asset/plugins/node-waves/waves.css" rel="stylesheet" />
+  <!-- Animation Css -->
+  <link href="<?php echo base_url(); ?>asset/plugins/animate-css/animate.css" rel="stylesheet" />
+  <!-- Multi Select Css -->
+  <link href="<?php echo base_url(); ?>asset/plugins/multi-select/css/multi-select.css" rel="stylesheet">
+  <!-- Custom Css -->
+  <link href="<?php echo base_url(); ?>asset/css/style.css" rel="stylesheet">
+  <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+  <link href="<?php echo base_url(); ?>asset/css/themes/all-themes.css" rel="stylesheet" />
 
+  <style type="text/css">
+    /* Kustom Form Wizard ================================= */
+    .wizard > .actions a {
+      background: #2196F3; }
+      .wizard > .actions a:hover, .wizard > .actions a:active {
+        background: #2196F3; }
+
+    .wizard .steps .done a {
+      background-color: rgba(33, 150, 243, 0.6); }
+      .wizard .steps .done a:hover, .wizard .steps .done a:active, .wizard .steps .done a:focus {
+        background-color: rgba(33, 150, 243, 0.5); }
+
+    .wizard .steps .error a {
+      background-color: #F44336 !important; }
+
+    .wizard .steps .current a {
+      background-color: #2196F3; }
+      .wizard .steps .current a:active, .wizard .steps .current a:focus, .wizard .steps .current a:hover {
+        background-color: #2196F3; }
+
+    /*.dropdown-menu.open {
+      z-index: 999999 !important;
+      overflow-y: scroll !important;}*/
+  </style>
+</head>
 <body class="theme-blue">
     <!-- Top Bar -->
     <nav class="navbar">
@@ -42,7 +92,7 @@
                                 <fieldset>
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                            <input type="text" class="form-control" id="nrp" name="nrp" required>
+                                            <input type="text" class="form-control" id="nrp" name="nrp" required autofocus>
                                             <label class="form-label">NRP</label>
                                         </div>
                                     </div>
@@ -69,7 +119,7 @@
                                     </div> -->
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                            <input type="text" class="form-control" name="telp" pattern="[0-9]+" required>
+                                            <input type="text" class="form-control" name="telp" pattern="[0-9]{11,13}" required>
                                             <label class="form-label">No Telepon</label>
                                         </div>
                                     </div>
@@ -89,8 +139,25 @@
 
                                 <h3>Keterangan</h3>
                                 <fieldset>
-                                     <p>
-                                        Pernah menjadi mentor sebelumnya?
+                                    <label for="nilai">Nilai Mata Kuliah Agama</label>
+                                    <br>
+                                    <select name="nilai" required>
+                                        <option disabled selected style="display:none">Pilih Nilai</option>
+                                        <option value="A">A</option>
+                                        <option value="AB">AB</option>
+                                        <option value="B">B</option>
+                                    </select>
+                                    <br>
+                                    <label for="pernah">Pernah Menjadi Mentor pada Semester</label>
+                                    <br>
+                                    <select name="pernah" required>
+                                        <option value=0>Tidak Pernah</option>
+                                        <?php for ($i = 1; $i <= 6; $i++): ?>
+                                            <option value=<?php echo $i ?>>Semester <?php echo $i ?></option>
+                                        <?php endfor ?>
+                                    </select>
+                                    <!-- <p>
+                                        <label>Pernah menjadi mentor sebelumnya?</label>
                                         <div class="row clearfix">
                                             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
                                                 <button class="btn btn-default btn-block waves-effect waves-float" id="yap">
@@ -112,7 +179,7 @@
                                     </div>
                                     <p id="tidakpernah" style="display: none;">
                                         Silahkan klik Next!
-                                    </p>
+                                    </p> -->
                                 </fieldset>
 
                                 <h3>Berkas</h3>
@@ -144,8 +211,23 @@
             <!-- #END# Advanced Form -->
         </div>
     </section>
-
-    
+    <!-- Jquery Core Js -->
+    <script src="<?php echo base_url(); ?>asset/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap Core Js -->
+    <script src="<?php echo base_url(); ?>asset/plugins/bootstrap/js/bootstrap.js"></script>
+    <!-- Select Plugin Js -->
+    <script src="<?php echo base_url(); ?>asset/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+    <!-- Slimscroll Plugin Js -->
+    <script src="<?php echo base_url(); ?>asset/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+    <!-- Waves Effect Plugin Js -->
+    <script src="<?php echo base_url(); ?>asset/plugins/node-waves/waves.js"></script>
+    <!-- Multi Select Plugin Js -->
+    <script src="<?php echo base_url(); ?>asset/plugins/multi-select/js/jquery.multi-select.js"></script>
+    <!-- JQuery Steps Plugin Js -->
+    <script src="<?php echo base_url(); ?>asset/plugins/jquery-steps/jquery.steps.js"></script>
+    <!-- Jquery Validation Plugin Css -->
+    <script src="<?php echo base_url(); ?>asset/plugins/jquery-validation/jquery.validate.js"></script>
+    <script src="<?php echo base_url(); ?>asset/plugins/jquery-validation/additional-methods.js"></script>
     <script>
         $(function () {
             var form = $('#wizard_form').show();
@@ -164,10 +246,50 @@
                     //set button waves effect
                     setButtonWavesEffect(event);
                 },
+                onStepChanging: function (event, currentIndex, newIndex) {
+                    // if (newIndex == 1)
+                    // {
+                    //     $("#pernah").attr("style", "display: none;");
+                    //     $("#tidakpernah").attr("style", "display: none;");
+                    // }
 
+                    if (currentIndex > newIndex) { return true; }
+
+                    if (currentIndex < newIndex) {
+                        form.find('.body:eq(' + newIndex + ') label.error').remove();
+                        form.find('.body:eq(' + newIndex + ') .error').removeClass('error');
+                    }
+
+                    form.validate().settings.ignore = ':disabled,:hidden';
+                    return form.valid();
+                },
+                onStepChanged: function (event, currentIndex, priorIndex) {
+                    setButtonWavesEffect(event);
+                },
+                onFinishing: function (event, currentIndex) {
+                    form.validate().settings.ignore = ':disabled';
+                    return form.valid();
+                },
                 onFinished: function (event, currentIndex) {
                     var form_submit = $(this);
                     form_submit.submit();
+                }
+            });
+
+            form.validate({
+                highlight: function (input) {
+                    $(input).parents('.form-line').addClass('error');
+                },
+                unhighlight: function (input) {
+                    $(input).parents('.form-line').removeClass('error');
+                },
+                errorPlacement: function (error, element) {
+                    $(element).parents('.form-group').append(error);
+                },
+                rules: {
+                    'telp': {
+                        pattern: /[0-9]{11,13}/
+                    }
                 }
             });
 
@@ -197,16 +319,16 @@
                });
             });
 
-            $("#yap").click(function()
-            {
-                $("#pernah").attr("style", "display: block;");
-                $("#tidakpernah").attr("style", "display: none;");
-            });
-            $("#tidak").click(function()
-            {
-                $("#pernah").attr("style", "display: none;");
-                $("#tidakpernah").attr("style", "display: block;");
-            });
+            // $("#yap").click(function()
+            // {
+            //     $("#pernah").attr("style", "display: block;");
+            //     $("#tidakpernah").attr("style", "display: none;");
+            // });
+            // $("#tidak").click(function()
+            // {
+            //     $("#pernah").attr("style", "display: none;");
+            //     $("#tidakpernah").attr("style", "display: block;");
+            // });
 
             $("#file").change(function()
             {
@@ -214,10 +336,16 @@
             });
         });
 
+        $('.nilai-agama').select2();
+
         function setButtonWavesEffect(event) {
             $(event.currentTarget).find('[role="menu"] li a').removeClass('waves-effect');
             $(event.currentTarget).find('[role="menu"] li:not(.disabled) a').addClass('waves-effect');
         }
     </script>
+    <!-- Custom Js -->
+    <script src="<?php echo base_url(); ?>asset/js/admin.js"></script>
+    <!-- Demo Js -->
+    <!-- <script src="<?php echo base_url(); ?>asset/js/demo.js"></script> -->
 </body>
 </html>

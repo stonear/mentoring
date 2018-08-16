@@ -25,6 +25,12 @@
 			<span>Presensi Mentor</span>
 		</a>
 	</li>
+	<li class="<?php if($title == 'Berita'){echo 'active';} ?>">
+		<a href="<?php echo base_url(); ?>Admin/berita">
+			<i class="material-icons <?php if($title == 'Berita'){echo 'col-light-blue';} ?>">text_fields</i>
+			<span>Berita</span>
+		</a>
+	</li>
 	<li class="header">DATABASE</li>
 	<li class="<?php if($title == 'Kelompok'){echo 'active';} ?>">
 		<a href="<?php echo base_url(); ?>Admin/kelompok">
@@ -42,6 +48,12 @@
 		<a href="<?php echo base_url(); ?>Admin/jumlahpertemuan">
 			<i class="material-icons <?php if($title == 'Jumlah Pertemuan'){echo 'col-light-blue';} ?>">spellcheck</i>
 			<span>Jumlah Pertemuan</span>
+		</a>
+	</li>
+	<li class="<?php if($title == 'Manual Pengguna'){echo 'active';} ?>">
+		<a href="<?php echo base_url(); ?>Admin/manual">
+			<i class="material-icons <?php if($title == 'Manual Pengguna'){echo 'col-light-blue';} ?>">description</i>
+			<span>Manual Penggunaan</span>
 		</a>
 	</li>
 	<li class="<?php if($title == 'Mentor'){echo 'active';} ?>">

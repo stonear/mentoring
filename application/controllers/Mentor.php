@@ -9,6 +9,7 @@ class Mentor extends CI_Controller
 		$this->load->helper('form');
 		$this->load->library('session');
 		$this->load->model('absen');
+		$this->load->model('berita');
 		$this->load->model('database');
 		$this->load->model('fileabsen');
 		$this->load->model('jadwal');
@@ -43,6 +44,8 @@ class Mentor extends CI_Controller
 			'role' => $this->data['role'],
 			'title' => 'Dashboard',
 			'module' => 'dashboard',
+
+			'berita' => $this->berita->select_berita(5),
 
 			'message' => $this->session->flashdata('message'),
 			'message_bg' => $this->session->flashdata('message_bg')
@@ -870,8 +873,10 @@ class Mentor extends CI_Controller
 		$alamat = $this->security->xss_clean($alamat);
 		$pernah = $this->input->post('pernah');
 		$pernah = $this->security->xss_clean($pernah);
+		$nilai = $this->input->post('nilai');
+		$nilai = $this->security->xss_clean($nilai);
 
-		$this->mentor_model->update_profil($this->data['nrp'], $jenis_kelamin, $no, $email, $alamat, $pernah);
+		$this->mentor_model->update_profil($this->data['nrp'], $jenis_kelamin, $no, $email, $alamat, $pernah, $nilai);
 		$this->session->set_flashdata('message', 'Berhasil mengupdate profil');
 		$this->session->set_flashdata('message_bg', 'bg-green');
 		redirect('Mentor/profil');

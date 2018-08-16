@@ -46,6 +46,8 @@ class Registrasi extends CI_Controller
 		$alamat = $this->input->post('alamat');
 		$alamat = $this->security->xss_clean($alamat);
 
+		$nilai = $this->input->post('nilai');
+		$nilai = $this->security->xss_clean($nilai);
 		$pernah_jadi_mentor = $this->input->post('pernah');
 		$pernah_jadi_mentor = $this->security->xss_clean($pernah_jadi_mentor);
 
@@ -80,9 +82,9 @@ class Registrasi extends CI_Controller
 				$linkfoto = NULL;
 				$kode_verifikasi = md5($NRPmentor);
 				$verified = 0;
-				$this->mentor_model->registrasi($NRPmentor, $nama, $jenis_kelamin, $no_telp, $email, $alamat, $pernah_jadi_mentor, $cv, $password, $linkfoto, $kode_verifikasi, $verified);
+				$this->mentor_model->registrasi($NRPmentor, $nama, $jenis_kelamin, $no_telp, $email, $alamat, $pernah_jadi_mentor, $cv, $password, $linkfoto, $kode_verifikasi, $verified, $nilai);
 
-				$response = $this->verification->send_verification($email, $nama, $kode_verifikasi);
+				$response = $this->verification->send_verification($email, $nama, $kode_verifikasi, $NRPmentor);
 				if ($response == 'Success')
 				{
 					$data = array
@@ -151,7 +153,7 @@ class Registrasi extends CI_Controller
 		$mentor = $this->mentor_model->select_mentor_byNRP($nrp);
 		foreach ($mentor as $m)
 		{
-			$response = $this->verification->send_verification($m->email, $m->nama, $m->kode_verifikasi);
+			$response = $this->verification->send_verification($m->email, $m->nama, $m->kode_verifikasi, $nrp);
 			if ($response == 'Success')
 			{
 				$data = array

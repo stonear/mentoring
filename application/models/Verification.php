@@ -5,7 +5,7 @@ class Verification extends CI_Model
 	{
 		parent::__construct();
 	}
-	function send_verification($email, $nama, $token)
+	function send_verification($email, $nama, $token, $nrp)
 	{
 		$config = Array(  
 		    'protocol' => 'smtp',  
@@ -21,7 +21,7 @@ class Verification extends CI_Model
 		$this->email->from('mentoring.its.ac.id@gmail.com', 'No Reply ~ Mentoring ITS');   
 		$this->email->to($email);   
 		$this->email->subject('Verifikasi Akun Mentoring ITS');   
-		$this->email->message('Halo '.$nama.', mohon verifikasi alamat email anda dengan cara klik tautan berikut ini.<br><a href="'.base_url('Registrasi/verifikasi/'.$token).'"><b>Klik di sini</b></a><br>Email ini dikirimkan secara otomatis. Mohon tidak membalas ke email ini.');
+		$this->email->message('Halo '.$nama.', mohon verifikasi alamat email anda dengan cara klik tautan berikut ini.<br><a href="'.base_url('Registrasi/verifikasi/'.$token).'"><b>Klik di sini</b></a><br>Username: '.$nrp.'<br>Password: '.$nrp.'<br>Email ini dikirimkan secara otomatis. Mohon tidak membalas ke email ini.');
 	   	if (!$this->email->send())
 		{  
 			return $this->email->print_debugger();   

@@ -13,6 +13,7 @@ class Admin extends CI_Controller
 		$this->load->model('absenmentor');
 		$this->load->model('Admin2');
 		$this->load->model('api');
+		$this->load->model('berita');
 		$this->load->model('database');
 		$this->load->model('dosen');
 		$this->load->model('fileabsen');
@@ -46,6 +47,8 @@ class Admin extends CI_Controller
 			'role' => $this->data['role'],
 			'title' => 'Dashboard',
 			'module' => 'dashboard',
+
+			'berita' => $this->berita->select_berita(5),
 
 			'message' => $this->session->flashdata('message'),
 			'message_bg' => $this->session->flashdata('message_bg')
@@ -1557,7 +1560,7 @@ class Admin extends CI_Controller
 		$objPHPExcel = new PHPExcel();
 		$objPHPExcel->getProperties()->setTitle("SIMITS")->setDescription("sistem informasi mentoring ITS")->setCreator("ITS")->setLastModifiedBy("ITS");
 
-		if ($semester) $smt = 'GASAL';
+		if ($semester == 1) $smt = 'GASAL';
 		else $smt = 'GENAP';
 		$title = 'DAFTAR KELOMPOK MENTORING ITS - '.$smt.' '.$tahun.'/'.($tahun + 1);
 		
@@ -1753,8 +1756,10 @@ class Admin extends CI_Controller
 		$alamat = $this->security->xss_clean($alamat);
 		$pernah = $this->input->post('pernah');
 		$pernah = $this->security->xss_clean($pernah);
+		$nilai = $this->input->post('nilai');
+		$nilai = $this->security->xss_clean($nilai);
 
-		$this->mentor_model->update_profil($nrp, $jenis_kelamin, $no, $email, $alamat, $pernah);
+		$this->mentor_model->update_profil($nrp, $jenis_kelamin, $no, $email, $alamat, $pernah, $nilai);
 		$this->session->set_flashdata('message', 'Berhasil mengupdate profil');
 		$this->session->set_flashdata('message_bg', 'bg-green');
 		redirect('Admin/profil_mentor/'.$nrp);
@@ -2091,6 +2096,8 @@ class Admin extends CI_Controller
 			'title' => 'Sync Data',
 			'module' => 'sync',
 
+			'tahun' => $this->peserta->select_tahun(),
+
 			'message' => $this->session->flashdata('message'),
 			'message_bg' => $this->session->flashdata('message_bg')
 		);
@@ -2208,4 +2215,355 @@ class Admin extends CI_Controller
 		$kelompok = $this->kelompok->exist_kelompok($no, $mentor, $pembina, $jadwal, $jenis);
         echo json_encode($kelompok);
 	}
+	public function berita()
+	{
+		$data = array
+		(
+			'nama' => $this->data['nama'],
+			'nrp' => $this->data['nrp'],
+			'role' => $this->data['role'],
+			'title' => 'Berita',
+			'module' => 'berita',
+
+			'berita' => $this->berita->select_berita(5),
+
+			'message' => $this->session->flashdata('message'),
+			'message_bg' => $this->session->flashdata('message_bg')
+		);
+		$this->load->view('master-layout', $data);
+	}
+	public function tambah_berita()
+	{
+		$data = array
+		(
+			'nama' => $this->data['nama'],
+			'nrp' => $this->data['nrp'],
+			'role' => $this->data['role'],
+			'title' => 'Berita',
+			'module' => 'tambahberita',
+
+			'message' => $this->session->flashdata('message'),
+			'message_bg' => $this->session->flashdata('message_bg')
+		);
+		$this->load->view('master-layout', $data);
+	}
+	public function tambah_berita2()
+	{
+		$judul = $this->input->post('judul');
+		$konten = $this->input->post('konten');
+
+		$this->berita->create_berita($this->data['nama'], $judul, $konten);
+
+		$this->session->set_flashdata('message', 'Berhasil menambah berita');
+		$this->session->set_flashdata('message_bg', 'bg-green');
+		redirect('Admin/berita');
+	}
+	public function update_berita($id = '')
+	{
+		$berita = $this->berita->select_berita_byID($id);
+		if (!count($berita)) redirect('Admin/berita');
+
+		$data = array
+		(
+			'nama' => $this->data['nama'],
+			'nrp' => $this->data['nrp'],
+			'role' => $this->data['role'],
+			'title' => 'Berita',
+			'module' => 'updateberita',
+
+			'berita' => $berita,
+
+			'message' => $this->session->flashdata('message'),
+			'message_bg' => $this->session->flashdata('message_bg')
+		);
+		$this->load->view('master-layout', $data);
+	}
+	public function update_berita2()
+	{
+		$id = $this->input->post('id');
+		$judul = $this->input->post('judul');
+		$konten = $this->input->post('konten');
+
+		$this->berita->update_berita($id, $judul, $konten);
+
+		$this->session->set_flashdata('message', 'Berhasil memperbarui berita');
+		$this->session->set_flashdata('message_bg', 'bg-green');
+		redirect('Admin/berita');
+	}
+	public function hapus_berita($id)
+	{
+		$this->berita->delete_berita($id);
+
+		$this->session->set_flashdata('message', 'Berhasil menghapus berita');
+		$this->session->set_flashdata('message_bg', 'bg-green');
+		redirect('Admin/berita');
+	}
+	public function tinymce_upload()
+	{
+        $path = './berita/';
+		if (!is_dir('berita'))
+		{
+			mkdir('./berita', 0777, true);
+		}
+		$config['upload_path']		= $path; 
+		$config['allowed_types']	= 'jpg|png|jpeg';
+		$config['overwrite']		= TRUE;
+		$config['max_size']			= 0;
+		$config['max_width']		= 0;
+		$config['max_height']		= 0;
+		$config['file_ext_tolower']	= TRUE;
+		$config['remove_spaces'] = TRUE;
+		$this->load->library('upload', $config);
+        if ( ! $this->upload->do_upload('file'))
+        {
+            $this->output->set_header('HTTP/1.0 500 Server Error');
+            exit;
+        }
+        else
+        {
+            $file = $this->upload->data();
+            $this->output
+                ->set_content_type('application/json', 'utf-8')
+                ->set_output(json_encode(['location' => base_url().'berita/'.$file['file_name']]))
+                ->_display();
+            exit;
+        }
+    }
+    public function sync_download()
+    {
+    	$tahun = $this->input->post('tahun');
+		$tahun = $this->security->xss_clean($tahun);
+		$semester = $this->input->post('semester');
+		$semester = $this->security->xss_clean($semester);
+
+		$this->load->library('excel');
+		$styleArray = array
+		(
+			'borders' => array
+			(
+				'allborders' => array
+				(
+					'style' => PHPExcel_Style_Border::BORDER_THIN,
+					'color' => array
+					(
+						'argb' => '00000000'
+					), 
+				), 
+			), 
+		);
+		$fontHeader = array
+		( 
+			'font' => array
+			(
+				'bold' => true
+			),
+			'alignment' => array
+			(
+				'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+				'vertical'   => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+				'rotation'   => 0,
+			),
+			'fill' => array
+			(
+				'type' => PHPExcel_Style_Fill::FILL_SOLID,
+				'color' => array('rgb' => '6CCECB')
+			)
+		);
+		$bold = array
+		(
+			'font' => array
+			(
+				'bold' => true
+			)
+		);
+		$fontCenter = array
+		(
+			'alignment' => array
+			(
+				'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+				'vertical'   => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+				'rotation'   => 0,
+			)
+		);
+		$objPHPExcel = new PHPExcel();
+		$objPHPExcel->getProperties()->setTitle("SIMITS")->setDescription("sistem informasi mentoring ITS")->setCreator("ITS")->setLastModifiedBy("ITS");
+
+		if ($semester == 1) $smt = 'GASAL';
+		else $smt = 'GENAP';
+		$title = 'DAFTAR PESERTA MENTORING ITS - '.$smt.' '.$tahun.'/'.($tahun + 1);
+		
+		$kelas = $this->kelas->select_kelas($tahun, $semester);
+
+		$i = 0;
+		foreach ($kelas as $k)
+		{
+			if ($i != 0) $objPHPExcel->createSheet();
+			$objPHPExcel->setActiveSheetIndex($i);
+			$objPHPExcel->getActiveSheet()->setTitle('TPB-'.$k->NOkelas);
+
+			$objPHPExcel->getActiveSheet()->mergeCells('A1:D1');
+			$objPHPExcel->getActiveSheet()->setCellValue('A1', $title);
+			$objPHPExcel->getActiveSheet()->mergeCells('A2:D2');
+			$objPHPExcel->getActiveSheet()->setCellValue('A2', 'Kelas: TPB-'.$k->NOkelas);
+			$objPHPExcel->getActiveSheet()->mergeCells('A3:D3');
+			$dosen = $this->kelas->select_dosen($k->IDkelas);
+			$objPHPExcel->getActiveSheet()->setCellValue('A3', 'Dosen: '.$dosen[0]->nama);
+			$objPHPExcel->getActiveSheet()->getStyle('A1:A3')->applyFromArray($bold);
+
+			$objPHPExcel->getActiveSheet()->setCellValue('A4', 'No.');
+			$objPHPExcel->getActiveSheet()->setCellValue('B4', 'NRP');
+			$objPHPExcel->getActiveSheet()->setCellValue('C4', 'Nama');
+			$objPHPExcel->getActiveSheet()->setCellValue('D4', 'Jenis Kelamin');
+
+			$objPHPExcel->getActiveSheet()->getStyle('A4:D4')->applyFromArray($fontHeader);
+			$objPHPExcel->getActiveSheet()->getStyle('A4:D4')->applyFromArray($styleArray);
+
+			$no = 1;
+			$row = 5;
+
+			$peserta = $this->peserta->select_peserta_bykelas($k->IDkelas);
+
+			//error handling, jika ada kelompok yg tidak ada pesertanya
+			if (count($peserta))
+			{
+				foreach ($peserta as $p)
+				{
+					$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $no++);
+					$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $p->NRPpeserta);
+					$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $p->nama);
+					$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $p->jeniskelamin);
+					$row++;
+				}
+			}
+			else
+			{
+				$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, '');
+				$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, '');
+				$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, '');
+				$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, '');
+				$row++;
+			}
+
+			$objPHPExcel->getActiveSheet()->getStyle('A5:D'.($row - 1))->applyFromArray($styleArray);
+
+			$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+			$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+			$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+			$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
+
+			$i++;
+		}
+
+		// Redirect output to a client’s web browser (Excel2007)
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="list_mahasiswa.xlsx"');
+		header('Cache-Control: max-age=0');
+		// If you're serving to IE 9, then the following may be needed
+		header('Cache-Control: max-age=1');
+
+		// If you're serving to IE over SSL, then the following may be needed
+		header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+		header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+		header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+		header ('Pragma: public'); // HTTP/1.0
+
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+		ob_end_clean();
+		$objWriter->save('php://output');
+    }
+    public function manual()
+    {
+    	$data = array
+		(
+			'nama' => $this->data['nama'],
+			'nrp' => $this->data['nrp'],
+			'role' => $this->data['role'],
+			'title' => 'Manual Pengguna',
+			'module' => 'manual',
+
+			'message' => $this->session->flashdata('message'),
+			'message_bg' => $this->session->flashdata('message_bg')
+		);
+		$this->load->view('master-layout', $data);
+    }
+    public function update_manual($role)
+    {
+    	$path = './asset/userguide/';
+		
+		$config['upload_path']		= $path; 
+		$config['allowed_types']	= 'pdf';
+		$config['overwrite']		= TRUE;
+		$config['max_size']			= 0;
+		$config['max_width']		= 0;
+		$config['max_height']		= 0;
+		$config['file_ext_tolower']	= TRUE;
+		$config['remove_spaces'] = TRUE;
+
+		if ($role == 'mentor')
+		{
+			$config['file_name'] = 'user_guide_mentor.pdf';
+			$this->load->library('upload', $config);
+			if ( ! $this->upload->do_upload('mentor'))
+			{
+				$this->session->set_flashdata('message', $this->upload->display_errors());
+				$this->session->set_flashdata('message_bg', 'bg-red');
+			}
+			else
+			{
+				$data = array('upload_data' => $this->upload->data());
+				$this->session->set_flashdata('message', 'Berhasil mengupdate manual pengguna mentor');
+				$this->session->set_flashdata('message_bg', 'bg-green');
+			}
+		}
+		else if ($role == 'pembina')
+		{
+			$config['file_name'] = 'user_guide_pembina.pdf';
+			$this->load->library('upload', $config);
+			if ( ! $this->upload->do_upload('pembina'))
+			{
+				$this->session->set_flashdata('message', $this->upload->display_errors());
+				$this->session->set_flashdata('message_bg', 'bg-red');
+			}
+			else
+			{
+				$data = array('upload_data' => $this->upload->data());
+				$this->session->set_flashdata('message', 'Berhasil mengupdate manual pengguna dosen pembina');
+				$this->session->set_flashdata('message_bg', 'bg-green');
+			}
+		}
+		else if ($role == 'dosen')
+		{
+			$config['file_name'] = 'user_guide_dosen.pdf';
+			$this->load->library('upload', $config);
+			if ( ! $this->upload->do_upload('dosen'))
+			{
+				$this->session->set_flashdata('message', $this->upload->display_errors());
+				$this->session->set_flashdata('message_bg', 'bg-red');
+			}
+			else
+			{
+				$data = array('upload_data' => $this->upload->data());
+				$this->session->set_flashdata('message', 'Berhasil mengupdate manual pengguna dosen kelas');
+				$this->session->set_flashdata('message_bg', 'bg-green');
+			}
+		}
+		else if ($role == 'admin')
+		{
+			$config['file_name'] = 'user_guide_admin.pdf';
+			$this->load->library('upload', $config);
+			if ( ! $this->upload->do_upload('admin'))
+			{
+				$this->session->set_flashdata('message', $this->upload->display_errors());
+				$this->session->set_flashdata('message_bg', 'bg-red');
+			}
+			else
+			{
+				$data = array('upload_data' => $this->upload->data());
+				$this->session->set_flashdata('message', 'Berhasil mengupdate manual pengguna administrator');
+				$this->session->set_flashdata('message_bg', 'bg-green');
+			}
+		}
+				
+		redirect('Admin/manual');
+    }
 }

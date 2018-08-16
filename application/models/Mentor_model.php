@@ -29,9 +29,9 @@ class Mentor_model extends CI_Model
 	{
 		$query = $this->db->query("INSERT INTO simits_mentor(NRPmentor, nama , password) VALUES (?, ?, ?)", array($nrp, $nama, password_hash($nrp, PASSWORD_BCRYPT)));
 	}
-	function registrasi($NRPmentor, $nama, $jenis_kelamin, $no_telp, $email, $alamat, $pernah_jadi_mentor, $cv, $password, $linkfoto, $kode_verifikasi, $verified)
+	function registrasi($NRPmentor, $nama, $jenis_kelamin, $no_telp, $email, $alamat, $pernah_jadi_mentor, $cv, $password, $linkfoto, $kode_verifikasi, $verified, $nilai)
 	{
-		$query = $this->db->query("INSERT INTO simits_mentor(NRPmentor, nama, jenis_kelamin, no_telp, email, alamat, pernah_jadi_mentor, cv, password, linkfoto, kode_verifikasi, verified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array($NRPmentor, $nama, $jenis_kelamin, $no_telp, $email, $alamat, $pernah_jadi_mentor, $cv, $password, $linkfoto, $kode_verifikasi, $verified));
+		$query = $this->db->query("INSERT INTO simits_mentor(NRPmentor, nama, jenis_kelamin, no_telp, email, alamat, pernah_jadi_mentor, cv, password, linkfoto, kode_verifikasi, verified, nilai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array($NRPmentor, $nama, $jenis_kelamin, $no_telp, $email, $alamat, $pernah_jadi_mentor, $cv, $password, $linkfoto, $kode_verifikasi, $verified, $nilai));
 	}
 	function update_passwordmentor($nrp, $password)
 	{
@@ -45,9 +45,9 @@ class Mentor_model extends CI_Model
 	{
 		$query = $this->db->query("UPDATE simits_mentor SET cv = ? WHERE NRPmentor = ?", array($link, $nrp));
 	}
-	function update_profil($nrp, $jenis_kelamin, $no, $email, $alamat, $pernah)
+	function update_profil($nrp, $jenis_kelamin, $no, $email, $alamat, $pernah, $nilai)
 	{
-		$query = $this->db->query("UPDATE simits_mentor SET jenis_kelamin = ?, no_telp = ?, email = ?, alamat = ?, pernah_jadi_mentor = ? WHERE NRPmentor = ?", array($jenis_kelamin, $no, $email, $alamat, $pernah, $nrp));
+		$query = $this->db->query("UPDATE simits_mentor SET jenis_kelamin = ?, no_telp = ?, email = ?, alamat = ?, pernah_jadi_mentor = ?, nilai = ? WHERE NRPmentor = ?", array($jenis_kelamin, $no, $email, $alamat, $pernah, $nilai, $nrp));
 	}
 	function delete_mentor($nrp)
 	{

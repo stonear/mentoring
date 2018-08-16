@@ -13,7 +13,7 @@
     </div>
 </div>
 <div class="row clearfix">
-    <div class="col-md-8 col-md-offset-2 col-xs-12">
+    <div class="col-md-6 col-xs-12">
         <div class="card">
             <div class="header">
                 <h2>UPDATE</h2>
@@ -21,10 +21,10 @@
             <div class="body">
             	<form class="form-horizontal" autocomplete="off" role="form" action="<?php echo base_url(); ?>Admin/sync2" method="post">
             		<div class="row clearfix">
-            			<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+            			<div class="col-lg-3 col-md-2 col-sm-4 col-xs-5 form-control-label">
             				<label for="tahun">Tahun</label>
             			</div>
-            			<div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+            			<div class="col-lg-9 col-md-10 col-sm-8 col-xs-7">
             				<div class="form-group">
             					<div class="form-line">
             						<input type="number" id="tahun" name="tahun" class="form-control" placeholder="Masukkan tahun ajaran" required>
@@ -33,9 +33,9 @@
             			</div>
             		</div>
             		<div class="row clearfix">
-            			<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+            			<div class="col-lg-3 col-md-2 col-sm-4 col-xs-5 form-control-label">
             			</div>
-            			<div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+            			<div class="col-lg-9 col-md-10 col-sm-8 col-xs-7">
             				<div class="form-group">
             					<div class="form-line">
             						<div class="keterangan"></div>
@@ -44,10 +44,10 @@
             			</div>
             		</div>
             		<div class="row clearfix">
-            			<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+            			<div class="col-lg-3 col-md-2 col-sm-4 col-xs-5 form-control-label">
             				<label for="semester">Semester</label>
             			</div>
-            			<div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+            			<div class="col-lg-9 col-md-10 col-sm-8 col-xs-7">
             				<div class="form-group">
             					<div class="form-line">
             						<select class="form-control show-tick" name="semester" required>
@@ -60,13 +60,61 @@
             			</div>
             		</div>
             		<div class="row clearfix">
-            			<div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
+            			<div class="col-lg-offset-3 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
             				<button type="submit" class="btn btn-primary m-t-15 waves-effect">UPDATE</button>
             			</div>
             		</div>
             	</form>
             </div>
         </div>
+    </div>
+    <div class="col-md-6 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>DOWNLOAD LIST MAHASISWA TIAP KELAS</h2>
+            </div>
+            <div class="body">
+                <form class="form-horizontal" autocomplete="off" role="form" action="<?php echo base_url(); ?>Admin/sync_download" method="post">
+                    <div class="row clearfix">
+                        <div class="col-lg-3 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                            <label for="tahun">Tahun</label>
+                        </div>
+                        <div class="col-lg-9 col-md-10 col-sm-8 col-xs-7">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <select class="form-control show-tick" name="tahun" required>
+                                        <option disabled selected style="display:none">Pilih Tahun</option>
+                                        <?php foreach ($tahun as $t): ?>
+                                            <option value="<?php echo $t->tahun ?>"><?php echo $t->tahun ?>/<?php echo $t->tahun + 1 ?></option>
+                                        <?php endforeach ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-lg-3 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                            <label for="semester">Semester</label>
+                        </div>
+                        <div class="col-lg-9 col-md-10 col-sm-8 col-xs-7">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <select class="form-control show-tick" name="semester" required>
+                                        <option disabled selected style="display:none">Pilih Semester</option>
+                                        <option value="1">Gasal</option>
+                                        <option value="2">Genap</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-lg-offset-3 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
+                            <button type="submit" class="btn btn-primary m-t-15 waves-effect">DOWNLOAD</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
     </div>
 </div>
 <script>

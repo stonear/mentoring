@@ -42,6 +42,11 @@ class Peserta extends CI_Model
 		$query = $this->db->query("SELECT p.NRPpeserta AS nrp FROM simits_peserta AS p, simits_kelas AS k WHERE p.IDkelas = k.IDkelas AND k.tahun = ? AND k.semester = ?", array($tahun, $semester));
 		return $query->result();
 	}
+	function select_tahun()
+	{
+		$query = $this->db->query("SELECT DISTINCT k.tahun AS tahun FROM simits_peserta AS p, simits_kelas AS k WHERE p.IDkelas = k.IDkelas");
+		return $query->result();
+	}
 	function update_kelompok($nrp, $kelompok)
 	{
 		$query = $this->db->query("UPDATE simits_peserta SET IDkelompok = ? WHERE NRPpeserta = ?", array($kelompok, $nrp));

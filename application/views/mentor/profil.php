@@ -145,6 +145,21 @@
 							</div>
 						</div>
 					</div>
+					<div class="row clearfix">
+						<div class="col-lg-3 col-md-3 col-sm-4 col-xs-5 form-control-label">
+							<label for="nilai">Nilai Mata Kuliah Agama<span class="col-red"> *</span></label>
+						</div>
+						<div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
+							<div class="form-group">
+								<select id="nilai" name="nilai" class="form-control" required>
+									<option disabled selected style="display:none">Pilih Nilai</option>
+									<option value="A" <?php if ('A' == $mentor[0]->nilai) echo  "selected" ?>>A</option>
+									<option value="AB" <?php if ('AB' == $mentor[0]->nilai) echo  "selected" ?>>AB</option>
+									<option value="B" <?php if ('B' == $mentor[0]->nilai) echo  "selected" ?>>B</option>
+								</select>
+							</div>
+						</div>
+					</div>
 
 					<div class="row clearfix">
 						<div class="col-lg-offset-3 col-md-offset-3 col-sm-offset-4 col-xs-offset-5">
@@ -196,8 +211,8 @@
 						<div class="col-xs-12">
 							<div class="form-group">
 								<div class="form-line">
-									<input style="opacity: 0; cursor: pointer;" type="file" id="cv" name="cv" class="form-control" required>
-									<label for="file" id="labelcv" style="cursor: pointer;">Pilih file CV . . .</label>
+									<input style="opacity: 0; cursor: pointer;" type="file" id="file2" name="cv" class="form-control" required>
+									<label for="file2" id="labelfile2" style="cursor: pointer;">Pilih file CV . . .</label>
 								</div>
 							</div>
 						</div>
@@ -216,11 +231,11 @@
 	{
 		$("#file").change(function()
 		{
-			$("#labelfile").text("Foto telah terpilih, silahkan click ADD!");
+			$("#labelfile").text("Foto telah terpilih, silahkan click UPDATE!");
 		});
-		$("#cv").change(function()
+		$("#file2").change(function()
 		{
-			$("#labelcv").text("CV telah terpilih, silahkan click ADD!");
+			$("#labelfile2").text("CV telah terpilih, silahkan click UPDATE!");
 		});
 	});
 </script>
