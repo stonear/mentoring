@@ -5,7 +5,8 @@ class Api extends CI_Model
 	{
 		parent::__construct();
 		//$this->authorization = 'Authorization: Bearer a063553f-20fe-3d22-9e04-bb08a96e31e4';
-		$this->authorization = 'Authorization: Bearer 2513a10a-beda-3709-ae6f-2d99b33987cc';
+		// $this->authorization = 'Authorization: Bearer 2513a10a-beda-3709-ae6f-2d99b33987cc';
+		$this->authorization = 'Authorization: Bearer a9e6f3ca-675e-3c5c-afd3-098fcfc264a2';
 	}
 	function get_data_mhs($nrp)
 	{

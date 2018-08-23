@@ -7,6 +7,11 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="<?php echo base_url(); ?>"><img src="<?php echo base_url(); ?>asset/images/shield-2.png" style="width: auto; height: 100%;"></img></a>
             </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="pull-right"><a href="<?php echo base_url(); ?>Auth/logout"><i class="material-icons">exit_to_app</i></a>
+                </ul>
+            </div>
         </div>
     </nav>
     <!-- #Top Bar -->
