@@ -2118,6 +2118,7 @@ class Admin extends CI_Controller
 		// $kelas = $this->api->get_daftar_kelas($idUPMB, $tahun, $semester);
 
 		$IDagama = 'IG1101';
+		$IDagama_baru = 'UG4901';
 		
 		// foreach($kelas as $k)
 		// {
@@ -2150,6 +2151,20 @@ class Admin extends CI_Controller
 					$this->dosen->create_dosen($k->nip_dosen, $k->dosen);
 
 					$mahasiswa = $this->api->get_daftar_mhs($lk, $IDagama, $k->kelas, $tahun, $semester);
+					foreach($mahasiswa as $m)
+					{
+						$biodata = $this->api->get_data_mhs($m->nrp);
+						$this->peserta->create_peserta($m->nrp, $m->nama, $IDkelas[0]->IDkelas, -1, $biodata[0]->jenis_kelamin);
+					}
+				}
+				if ($k->mata_kuliah->id == $IDagama_baru)
+				{
+					$this->kelas->create_kelas($k->kelas, $k->nip_dosen, $tahun, $semester);
+					$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas);
+
+					$this->dosen->create_dosen($k->nip_dosen, $k->dosen);
+
+					$mahasiswa = $this->api->get_daftar_mhs($lk, $IDagama_baru, $k->kelas, $tahun, $semester);
 					foreach($mahasiswa as $m)
 					{
 						$biodata = $this->api->get_data_mhs($m->nrp);
