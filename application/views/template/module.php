@@ -56,6 +56,12 @@
 			<span>Manual Penggunaan</span>
 		</a>
 	</li>
+	<li class="<?php if($title == 'Template CV Mentor'){echo 'active';} ?>">
+		<a href="<?php echo base_url(); ?>Admin/cvmentor">
+			<i class="material-icons <?php if($title == 'Template CV Mentor'){echo 'col-light-blue';} ?>">assignment_turned_in</i>
+			<span>Template CV Mentor</span>
+		</a>
+	</li>
 	<li class="<?php if($title == 'Mentor'){echo 'active';} ?>">
 		<a href="<?php echo base_url(); ?>Admin/mentor">
 			<i class="material-icons <?php if($title == 'Mentor'){echo 'col-light-blue';} ?>">class</i>

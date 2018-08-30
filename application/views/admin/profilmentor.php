@@ -216,9 +216,10 @@
 						<div class="col-xs-12">
 							<div class="form-group">
 								<div class="form-line">
-									<input style="opacity: 0; cursor: pointer;" type="file" id="file2" name="cv" class="form-control" required>
+									<input style="opacity: 0; cursor: pointer;" type="file" id="file2" name="cv" class="form-control" required accept="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
 									<label for="file2" id="labelfile2" style="cursor: pointer;">Pilih file CV . . .</label>
 								</div>
+								<small>Format file yang diperbolehkan adalah <strong>doc/docx</strong>.</small>
 							</div>
 						</div>
 					</div>

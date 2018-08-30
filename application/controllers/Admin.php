@@ -2566,4 +2566,47 @@ class Admin extends CI_Controller
 				
 		redirect('Admin/manual');
     }
+    public function cvmentor()
+    {
+    	$data = array
+		(
+			'nama' => $this->data['nama'],
+			'nrp' => $this->data['nrp'],
+			'role' => $this->data['role'],
+			'title' => 'Template CV Mentor',
+			'module' => 'cvmentor',
+
+			'message' => $this->session->flashdata('message'),
+			'message_bg' => $this->session->flashdata('message_bg')
+		);
+		$this->load->view('master-layout', $data);
+    }
+    public function cvmentor2()
+    {
+    	$path = './asset/registration/';
+		
+		$config['upload_path']		= $path; 
+		$config['allowed_types']	= 'word|doc|docx|html';
+		$config['overwrite']		= TRUE;
+		$config['max_size']			= 0;
+		$config['max_width']		= 0;
+		$config['max_height']		= 0;
+		$config['file_ext_tolower']	= TRUE;
+		$config['remove_spaces'] = TRUE;
+
+		$config['file_name'] = 'cv.docx';
+		$this->load->library('upload', $config);
+		if ( ! $this->upload->do_upload('cv'))
+		{
+			$this->session->set_flashdata('message', $this->upload->display_errors());
+			$this->session->set_flashdata('message_bg', 'bg-red');
+		}
+		else
+		{
+			$data = array('upload_data' => $this->upload->data());
+			$this->session->set_flashdata('message', 'Berhasil mengupdate template CV mentor');
+			$this->session->set_flashdata('message_bg', 'bg-green');
+		}
+		redirect('Admin/cvmentor');
+    }
 }
