@@ -28,6 +28,7 @@ class Admin extends CI_Controller
 		$this->load->model('pertemuan');
 		$this->load->model('peserta');
 		$this->load->model('pembina');
+		$this->load->model('smtmentor');
 
 		if($this->session->userdata('status') != 'login' or $this->session->userdata('role') != 'Admin')
 		{
@@ -48,7 +49,27 @@ class Admin extends CI_Controller
 			'title' => 'Dashboard',
 			'module' => 'dashboard',
 
-			'berita' => $this->berita->select_berita(5),
+			// 'berita' => $this->berita->select_berita(5),
+			'berita' => $this->berita->select_berita_byTahun(date("Y")),
+
+			'message' => $this->session->flashdata('message'),
+			'message_bg' => $this->session->flashdata('message_bg')
+		);
+		$this->load->view('master-layout', $data);
+	}
+	public function berita_lama($tahun = "")
+	{
+		$data = array
+		(
+			'nama' => $this->data['nama'],
+			'nrp' => $this->data['nrp'],
+			'role' => $this->data['role'],
+			'title' => 'Dashboard',
+			'module' => 'beritalama',
+
+			'berita' => $this->berita->select_berita_byTahun($tahun),
+			'tahun' => $this->berita->select_tahun(),
+			'tahun_selected' => $tahun,
 
 			'message' => $this->session->flashdata('message'),
 			'message_bg' => $this->session->flashdata('message_bg')
@@ -1335,6 +1356,10 @@ class Admin extends CI_Controller
 		$kelas_selected = $this->input->post('kelas_selected');
 		$kelas_selected = $this->security->xss_clean($kelas_selected);
 
+		$kelas = $this->kelas->select_tahunsemester($kelas_selected);
+		$tahun = $kelas[0]->tahun;
+		$semester = $kelas[0]->semester;
+
 		$data = array
 		(
 			'nama' => $this->data['nama'],
@@ -1347,7 +1372,8 @@ class Admin extends CI_Controller
 			'message_bg' => $this->session->flashdata('message_bg'),
 
 			'kelas_selected' => $kelas_selected,
-			'mentor' => $this->mentor_model->select_mentor(),
+			// 'mentor' => $this->mentor_model->select_mentor(),
+			'mentor' => $this->mentor_model->select_mentor3($tahun, $semester),
 			'pembina' => $this->pembina->select_pembina(),
 			'peserta' => $this->peserta->select_peserta($kelas_selected, -1)
 		);
@@ -1709,6 +1735,19 @@ class Admin extends CI_Controller
 	}
 	public function mentor()
 	{
+		$tahun = $this->input->post('tahun');
+		$tahun = $this->security->xss_clean($tahun);
+		$semester = $this->input->post('semester');
+		$semester = $this->security->xss_clean($semester);
+
+		$temp_tahun = $this->session->flashdata('tahun');
+		$temp_semester = $this->session->flashdata('semester');
+		
+		if (isset($temp_tahun)) $tahun = $temp_tahun;
+		if (isset($temp_semester)) $semester = $temp_semester;
+
+		$mentor = $this->mentor_model->select_mentor3($tahun, $semester);
+
 		$data = array
 		(
 			'nama' => $this->data['nama'],
@@ -1720,11 +1759,114 @@ class Admin extends CI_Controller
 			'message' => $this->session->flashdata('message'),
 			'message_bg' => $this->session->flashdata('message_bg'),
 
-			'mentor' => $this->mentor_model->select_mentor()
+			'tahun' => $this->kelas->select_tahun(),
+
+			'tahun_selected' => $tahun,
+			'semester_selected' => $semester,
+
+			// 'mentor' => $this->mentor_model->select_mentor()
+			'mentor' => $mentor
 		);
 		$this->load->view('master-layout', $data);
 	}
-	public function profil_mentor($nrp = "")
+	public function download_mentor($tahun = "", $semester = "")
+	{
+		$this->load->library('excel');
+		$styleArray = array
+		(
+			'borders' => array
+			(
+				'allborders' => array
+				(
+					'style' => PHPExcel_Style_Border::BORDER_THIN,
+					'color' => array
+					(
+						'argb' => '00000000'
+					), 
+				), 
+			), 
+		);
+		$fontHeader = array
+		( 
+			'font' => array
+			(
+				'bold' => true
+			),
+			'alignment' => array
+			(
+				'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+				'vertical'   => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+				'rotation'   => 0,
+			),
+			'fill' => array
+			(
+				'type' => PHPExcel_Style_Fill::FILL_SOLID,
+				'color' => array('rgb' => '6CCECB')
+			)
+		);
+		$bold = array
+		(
+			'font' => array
+			(
+				'bold' => true
+			)
+		);
+		$objPHPExcel = new PHPExcel();
+		$objPHPExcel->getProperties()->setTitle("SIMITS")->setDescription("sistem informasi mentoring ITS")->setCreator("ITS")->setLastModifiedBy("ITS");
+
+		if ($semester == 1) $smt = 'GASAL';
+		else $smt = 'GENAP';
+		$title = 'DAFTAR MENTOR MENTORING ITS - '.$smt.' '.$tahun.'/'.($tahun + 1);
+
+		$objPHPExcel->getActiveSheet()->setTitle('Mentor');
+		$objPHPExcel->getActiveSheet()->mergeCells('A1:D1');
+		$objPHPExcel->getActiveSheet()->setCellValue('A1', $title);
+		$objPHPExcel->getActiveSheet()->getStyle('A1')->applyFromArray($bold);
+
+		$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
+
+		$objPHPExcel->getActiveSheet()->setCellValue('A2', 'NO');
+		$objPHPExcel->getActiveSheet()->setCellValue('B2', 'NRP');
+		$objPHPExcel->getActiveSheet()->setCellValue('C2', 'NAMA');
+		$objPHPExcel->getActiveSheet()->setCellValue('D2', 'JENIS KELAMIN');
+		$objPHPExcel->getActiveSheet()->getStyle('A2:D2')->applyFromArray($fontHeader);
+		$objPHPExcel->getActiveSheet()->getStyle('A2:D2')->applyFromArray($styleArray);
+
+		$mentor = $this->mentor_model->select_mentor3($tahun, $semester);
+
+		$no = 1;
+		$row = 3;
+		foreach ($mentor as $m)
+		{
+			$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $no++);
+			$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $m->NRPmentor);
+			$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $m->nama);
+			$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $m->jenis_kelamin);
+			$objPHPExcel->getActiveSheet()->getStyle('A'.$row.':D'.$row)->applyFromArray($styleArray);
+			$row++;
+		}
+
+		// Redirect output to a client’s web browser (Excel2007)
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="mentor.xlsx"');
+		header('Cache-Control: max-age=0');
+		// If you're serving to IE 9, then the following may be needed
+		header('Cache-Control: max-age=1');
+
+		// If you're serving to IE over SSL, then the following may be needed
+		header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+		header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+		header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+		header ('Pragma: public'); // HTTP/1.0
+
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+		ob_end_clean();
+		$objWriter->save('php://output');
+	}
+	public function profil_mentor($nrp = "", $tahun = "", $semester = "")
 	{
 		$mentor = $this->mentor_model->select_mentor_byNRP($nrp);
 		if (count($mentor) == 0) redirect('Admin/mentor');
@@ -1737,6 +1879,9 @@ class Admin extends CI_Controller
 			'title' => 'Mentor',
 			'module' => 'profilmentor',
 
+			'tahun_selected' => $tahun,
+			'semester_selected' => $semester,
+
 			'message' => $this->session->flashdata('message'),
 			'message_bg' => $this->session->flashdata('message_bg'),
 
@@ -1744,7 +1889,7 @@ class Admin extends CI_Controller
 		);
 		$this->load->view('master-layout', $data);
 	}
-	public function update_profil_mentor($nrp = "")
+	public function update_profil_mentor($nrp = "", $tahun = "", $semester = "")
 	{
 		$jenis_kelamin = $this->input->post('jenis_kelamin');
 		$jenis_kelamin = $this->security->xss_clean($jenis_kelamin);
@@ -1762,9 +1907,9 @@ class Admin extends CI_Controller
 		$this->mentor_model->update_profil($nrp, $jenis_kelamin, $no, $email, $alamat, $pernah, $nilai);
 		$this->session->set_flashdata('message', 'Berhasil mengupdate profil');
 		$this->session->set_flashdata('message_bg', 'bg-green');
-		redirect('Admin/profil_mentor/'.$nrp);
+		redirect('Admin/profil_mentor/'.$nrp.'/'.$tahun.'/'.$semester);
 	}
-	public function update_foto_mentor($nrp = "")
+	public function update_foto_mentor($nrp = "", $tahun = "", $semester = "")
 	{
 		$path = './photo/';
 		if (!is_dir('photo'))
@@ -1793,9 +1938,9 @@ class Admin extends CI_Controller
 			$this->session->set_flashdata('message', 'Berhasil mengupdate foto profil<br>Apabila foto belum berubah, silahkan refresh browser anda');
 			$this->session->set_flashdata('message_bg', 'bg-green');
 		}
-		redirect('Admin/profil_mentor/'.$nrp);
+		redirect('Admin/profil_mentor/'.$nrp.'/'.$tahun.'/'.$semester);
 	}
-	public function update_cv_mentor($nrp = "")
+	public function update_cv_mentor($nrp = "", $tahun = "", $semester = "")
 	{
 		$path = './cv/';
 		if (!is_dir('cv'))
@@ -1824,9 +1969,9 @@ class Admin extends CI_Controller
 			$this->session->set_flashdata('message', 'Berhasil mengupdate CV');
 			$this->session->set_flashdata('message_bg', 'bg-green');
 		}
-		redirect('Admin/profil_mentor/'.$nrp);
+		redirect('Admin/profil_mentor/'.$nrp.'/'.$tahun.'/'.$semester);
 	}
-	public function tambah_mentor()
+	public function tambah_mentor($tahun = "", $semester = "")
 	{
 		$nrp = $this->input->post('nrp');
 		$nrp = $this->security->xss_clean($nrp);
@@ -1835,39 +1980,54 @@ class Admin extends CI_Controller
 		
 		if ($mentor != NULL)
 		{
-			if ($this->mentor_model->exist_mentor($nrp))
-			{
-				$this->session->set_flashdata('message', 'Data mentor telah ada sebelumnya');
-				$this->session->set_flashdata('message_bg', 'bg-red');
-			}
-			else
-			{
-				$this->mentor_model->create_mentor($nrp, $mentor[0]->nama);
-				$this->session->set_flashdata('message', 'Berhasil menambah mentor');
-				$this->session->set_flashdata('message_bg', 'bg-green');
-			}
+			// if ($this->mentor_model->exist_mentor($nrp))
+			// {
+			// 	$this->session->set_flashdata('message', 'Data mentor telah ada sebelumnya');
+			// 	$this->session->set_flashdata('message_bg', 'bg-red');
+			// }
+			// else
+			// {
+			// 	$this->mentor_model->create_mentor($nrp, $mentor[0]->nama);
+			// 	$this->session->set_flashdata('message', 'Berhasil menambah mentor');
+			// 	$this->session->set_flashdata('message_bg', 'bg-green');
+			// }
+
+			if ($this->mentor_model->exist_mentor($nrp) == false) $this->mentor_model->create_mentor($nrp, $mentor[0]->nama);
+			$this->smtmentor->registrasi($nrp, $tahun, $semester);
+
+			$this->session->set_flashdata('message', 'Berhasil menambah mentor');
+			$this->session->set_flashdata('message_bg', 'bg-green');
 		}
 		else
 		{
 			$this->session->set_flashdata('message', 'Data tidak ditemukan');
 			$this->session->set_flashdata('message_bg', 'bg-red');
 		}
+		$this->session->set_flashdata('tahun', $tahun);
+		$this->session->set_flashdata('semester', $semester);
 		redirect('Admin/mentor');
 	}
-	public function update_mentor($nrp = '')
+	public function update_mentor($nrp = '', $tahun = "", $semester = "")
 	{
 		$nrp = $this->security->xss_clean($nrp);
 		$password = $this->input->post('password');
 		$password = $this->security->xss_clean($password);
 		$this->mentor_model->update_passwordmentor($nrp, $password);
+
+		$this->session->set_flashdata('tahun', $tahun);
+		$this->session->set_flashdata('semester', $semester);
 		$this->session->set_flashdata('message', 'Berhasil memperbarui kata sandi mentor');
 		$this->session->set_flashdata('message_bg', 'bg-green');
 		redirect('Admin/mentor');
 	}
-	public function hapus_mentor($nrp = '')
+	public function hapus_mentor($nrp = '', $tahun = "", $semester = "")
 	{
 		$nrp = $this->security->xss_clean($nrp);
-		$this->mentor_model->delete_mentor($nrp);
+		//$this->mentor_model->delete_mentor($nrp);
+		$this->smtmentor->delete($nrp, $tahun, $semester);
+
+		$this->session->set_flashdata('tahun', $tahun);
+		$this->session->set_flashdata('semester', $semester);
 		$this->session->set_flashdata('message', 'Berhasil menghapus mentor');
 		$this->session->set_flashdata('message_bg', 'bg-green');
 		redirect('Admin/mentor');

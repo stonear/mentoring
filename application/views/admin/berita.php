@@ -3,7 +3,8 @@
         <div class="card">
             <div class="body">
                 <blockquote class="m-b-25">
-                    <p>Berita yang akan ditampilkan pada pengguna adalah 5 berita terbaru.</p>
+                    <!-- <p>Berita yang akan ditampilkan pada pengguna adalah 5 berita terbaru.</p> -->
+                    <p>Berita yang akan ditampilkan pada pengguna adalah berita pada tahun yang sama.</p>
                 </blockquote>
             </div>
         </div>

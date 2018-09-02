@@ -137,7 +137,7 @@
                                     </div>
                                 </fieldset>
 
-                                <h3>Keterangan</h3>
+                                <h3>Keterangan (1)</h3>
                                 <fieldset>
                                     <label for="nilai">Nilai Mata Kuliah Agama</label>
                                     <br>
@@ -181,7 +181,29 @@
                                         Silahkan klik Next!
                                     </p> -->
                                 </fieldset>
-
+                                <h3>Keterangan (2)</h3>
+                                <fieldset>
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="number" class="form-control" id="tahun" name="tahun" required>
+                                            <label class="form-label">Pendaftaran Mentor untuk Tahun Ajaran ...</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <div class="keterangan"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <select class="form-control show-tick" name="semester" required>
+                                                <option disabled selected style="display:none">Pendaftaran Mentor untuk Semester ...</option>
+                                                <option value="1">Semester Gasal</option>
+                                                <option value="2">Semester Genap</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </fieldset>
                                 <h3>Berkas</h3>
                                 <fieldset>
                                     <p>
@@ -315,8 +337,8 @@
                         }
                         $('input.nama').attr("value", html_nama);
                         $('input.jenis').attr("value", html_jenis);
-                   }
-               });
+                    }
+                });
             });
 
             // $("#yap").click(function()
@@ -334,9 +356,18 @@
             {
                 $("#labelfile").text("File CV telah terpilih, silahkan click Finish!");
             });
+
+            $('#tahun').change(function()
+            {
+                var tahun = $('#tahun').val();
+                var tahun = parseInt(tahun);
+                $('div.keterangan').html('<small>(Tahun ajaran ' + tahun.toString() + '/' + (tahun + 1).toString() + ')</small>');
+            });
         });
 
         $('.nilai-agama').select2();
+
+
 
         function setButtonWavesEffect(event) {
             $(event.currentTarget).find('[role="menu"] li a').removeClass('waves-effect');

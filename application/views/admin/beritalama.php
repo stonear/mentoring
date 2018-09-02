@@ -1,18 +1,14 @@
 <div class="row clearfix">
     <div class="col-xs-12">
-        <div class="card">
-            <div class="header">
-                <h2>Unduh Manual Pengguna</h2>
-            </div>
-            <div class="body">
-                Bingung mau ngapain? unduh manual pengguna <a href="<?php echo base_url(); ?>asset/userguide/user_guide_admin.pdf?" target="_blank">di sini</a>.
-            </div>
-        </div>
+        <?php foreach($tahun as $t): ?>
+            <a class="btn bg-cyan waves-effect" href="<?php echo base_url(); ?>Admin/berita_lama/<?php echo $t->tahun ?>"><?php echo $t->tahun ?></a>
+        <?php endforeach ?>
+        <br><br>
     </div>
     <div class="col-xs-12">
         <div class="card">
             <div class="header">
-                <h2>Berita</h2>
+                <h2>Berita Tahun <?php echo $tahun_selected ?></h2>
             </div>
             <div class="body">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -36,25 +32,7 @@
                         </div>
                     <?php endforeach; ?>
                 </div>
-                <div class="align-right">
-                    <a class="btn bg-cyan waves-effect" href="<?php echo base_url(); ?>Admin/berita_lama/<?php echo date('Y') ?>">Berita Lama</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-12">
-        <div class="card">
-            <div class="body">
-                <img style="width: 100%; object-fit: contain" src="<?php echo base_url(); ?>asset/images/dashboard/administrator.png" alt="Diagram"/> 
             </div>
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function(){
-        //tooltip
-        $('[data-toggle="tooltip"]').tooltip({
-            container: 'body'
-        });
-    });
-</script>

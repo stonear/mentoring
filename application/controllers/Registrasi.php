@@ -9,6 +9,7 @@ class Registrasi extends CI_Controller
 		$this->load->library('session');
 		$this->load->model('api');
 		$this->load->model('mentor_model');
+		$this->load->model('smtmentor');
 		$this->load->model('verification');
 	}
 	public function index()
@@ -51,6 +52,11 @@ class Registrasi extends CI_Controller
 		$pernah_jadi_mentor = $this->input->post('pernah');
 		$pernah_jadi_mentor = $this->security->xss_clean($pernah_jadi_mentor);
 
+		$tahun = $this->input->post('tahun');
+		$tahun = $this->security->xss_clean($tahun);
+		$semester = $this->input->post('semester');
+		$semester = $this->security->xss_clean($semester);
+
 		$error = '';
 
 		$path = './cv/';
@@ -83,6 +89,8 @@ class Registrasi extends CI_Controller
 				$kode_verifikasi = md5($NRPmentor);
 				$verified = 0;
 				$this->mentor_model->registrasi($NRPmentor, $nama, $jenis_kelamin, $no_telp, $email, $alamat, $pernah_jadi_mentor, $cv, $password, $linkfoto, $kode_verifikasi, $verified, $nilai);
+
+				$this->smtmentor->registrasi($NRPmentor, $tahun, $semester);
 
 				$response = $this->verification->send_verification($email, $nama, $kode_verifikasi, $NRPmentor);
 				if ($response == 'Success')

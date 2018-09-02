@@ -20,6 +20,7 @@ class Mentor extends CI_Controller
 		$this->load->model('nilai');
 		$this->load->model('pertemuan');
 		$this->load->model('peserta');
+		$this->load->model('smtmentor');
 
 		if($this->session->userdata('status') != 'login' or $this->session->userdata('role') != 'Mentor')
 		{
@@ -45,7 +46,27 @@ class Mentor extends CI_Controller
 			'title' => 'Dashboard',
 			'module' => 'dashboard',
 
-			'berita' => $this->berita->select_berita(5),
+			// 'berita' => $this->berita->select_berita(5),
+			'berita' => $this->berita->select_berita_byTahun(date("Y")),
+
+			'message' => $this->session->flashdata('message'),
+			'message_bg' => $this->session->flashdata('message_bg')
+		);
+		$this->load->view('master-layout', $data);
+	}
+	public function berita_lama($tahun = "")
+	{
+		$data = array
+		(
+			'nama' => $this->data['nama'],
+			'nrp' => $this->data['nrp'],
+			'role' => $this->data['role'],
+			'title' => 'Dashboard',
+			'module' => 'beritalama',
+
+			'berita' => $this->berita->select_berita_byTahun($tahun),
+			'tahun' => $this->berita->select_tahun(),
+			'tahun_selected' => $tahun,
 
 			'message' => $this->session->flashdata('message'),
 			'message_bg' => $this->session->flashdata('message_bg')
@@ -880,5 +901,35 @@ class Mentor extends CI_Controller
 		$this->session->set_flashdata('message', 'Berhasil mengupdate profil');
 		$this->session->set_flashdata('message_bg', 'bg-green');
 		redirect('Mentor/profil');
+	}
+	public function reg()
+	{
+		$data = array
+		(
+			'nama' => $this->data['nama'],
+			'nrp' => $this->data['nrp'],
+			'role' => $this->data['role'],
+			'title' => 'Registrasi Ulang',
+			'module' => 'registrasi',
+
+			'smtmentor' => $this->smtmentor->select_byNRP($this->data['nrp']),
+
+			'message' => $this->session->flashdata('message'),
+			'message_bg' => $this->session->flashdata('message_bg')
+		);
+		$this->load->view('master-layout', $data);
+	}
+	public function reg2()
+	{
+		$tahun = $this->input->post('tahun');
+		$tahun = $this->security->xss_clean($tahun);
+		$semester = $this->input->post('semester');
+		$semester = $this->security->xss_clean($semester);
+
+		$this->smtmentor->registrasi($this->data['nrp'], $tahun, $semester);
+
+		$this->session->set_flashdata('message', 'Berhasil melakukan registrasi ulang');
+		$this->session->set_flashdata('message_bg', 'bg-green');
+		redirect('Mentor/reg');
 	}
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 16 Agu 2018 pada 05.09
+-- Waktu pembuatan: 02 Sep 2018 pada 20.45
 -- Versi server: 10.1.30-MariaDB
 -- Versi PHP: 7.2.2
 
@@ -21,8 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `simits`
 --
-CREATE DATABASE IF NOT EXISTS `simits` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `simits`;
 
 -- --------------------------------------------------------
 
@@ -252,6 +250,18 @@ CREATE TABLE `simits_peserta` (
   `jeniskelamin` varchar(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `simits_smtmentor`
+--
+
+CREATE TABLE `simits_smtmentor` (
+  `nrp` varchar(255) NOT NULL,
+  `tahun` int(11) NOT NULL,
+  `semester` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 --
 -- Indexes for dumped tables
 --
@@ -312,19 +322,19 @@ ALTER TABLE `simits_peserta`
 -- AUTO_INCREMENT untuk tabel `simits_berita`
 --
 ALTER TABLE `simits_berita`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `simits_kelas`
 --
 ALTER TABLE `simits_kelas`
-  MODIFY `IDkelas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `IDkelas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT untuk tabel `simits_kelompokmentoring`
 --
 ALTER TABLE `simits_kelompokmentoring`
-  MODIFY `IDkelompok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `IDkelompok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `simits_masternilai`

@@ -43,7 +43,27 @@ class Pembina extends CI_Controller
 			'title' => 'Dashboard',
 			'module' => 'dashboard',
 
-			'berita' => $this->berita->select_berita(5),
+			// 'berita' => $this->berita->select_berita(5),
+			'berita' => $this->berita->select_berita_byTahun(date("Y")),
+
+			'message' => $this->session->flashdata('message'),
+			'message_bg' => $this->session->flashdata('message_bg')
+		);
+		$this->load->view('master-layout', $data);
+	}
+	public function berita_lama($tahun = "")
+	{
+		$data = array
+		(
+			'nama' => $this->data['nama'],
+			'nrp' => $this->data['nrp'],
+			'role' => $this->data['role'],
+			'title' => 'Dashboard',
+			'module' => 'beritalama',
+
+			'berita' => $this->berita->select_berita_byTahun($tahun),
+			'tahun' => $this->berita->select_tahun(),
+			'tahun_selected' => $tahun,
 
 			'message' => $this->session->flashdata('message'),
 			'message_bg' => $this->session->flashdata('message_bg')

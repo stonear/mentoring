@@ -23,7 +23,17 @@ class Berita extends CI_Model
 	}
 	function select_berita_byID($id)
 	{
-		$query = $this->db->query("SELECT * FROM simits_berita WHERE id = ?", array($id));
+		$query = $this->db->query("SELECT * FROM simits_berita WHERE id = ? ORDER BY tanggal DESC", array($id));
+		return $query->result();
+	}
+	function select_berita_byTahun($tahun)
+	{
+		$query = $this->db->query("SELECT * FROM simits_berita WHERE YEAR(tanggal) = ? ORDER BY tanggal DESC", array($tahun));
+		return $query->result();
+	}
+	function select_tahun()
+	{
+		$query = $this->db->query("SELECT DISTINCT YEAR(tanggal) AS tahun FROM simits_berita ORDER BY tahun DESC");
 		return $query->result();
 	}
 	function update_berita($id, $judul, $konten)

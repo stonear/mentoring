@@ -1,6 +1,12 @@
 <div class="row clearfix">
     <div class="col-xs-12">
-        <a href="<?php echo base_url() ?>Admin/mentor" class="btn btn-primary waves-effect"><i class="material-icons">arrow_back</i></a>
+        <!-- <a href="<?php echo base_url() ?>Admin/mentor" class="btn btn-primary waves-effect"><i class="material-icons">arrow_back</i></a> -->
+        <form autocomplete="off" role="form" action="<?php echo base_url(); ?>Admin/mentor" method="post">
+            <input type="hidden" name="tahun" value="<?php echo $tahun_selected ?>">
+            <input type="hidden" name="semester" value="<?php echo $semester_selected ?>">
+            <button type="submit" class="btn btn-primary waves-effect"><i class="material-icons">arrow_back</i></button>
+        </form>
+        <!-- <br><br> -->
     </div>
 </div><br>
 <div class="row clearfix">
@@ -60,7 +66,7 @@
 				<h2>Biodata</h2>
 			</div>
 			<div class="body">
-				<form class="form-horizontal" autocomplete="off" role="form" action="<?php echo base_url(); ?>Admin/update_profil_mentor/<?php echo $mentor[0]->NRPmentor ?>" method="post">
+				<form class="form-horizontal" autocomplete="off" role="form" action="<?php echo base_url(); ?>Admin/update_profil_mentor/<?php echo $mentor[0]->NRPmentor.'/'.$tahun_selected.'/'.$semester_selected ?>" method="post">
 					<div class="row clearfix">
 						<div class="col-lg-3 col-md-3 col-sm-4 col-xs-5 form-control-label">
 							<label for="nrp">NRP<span class="col-red"> *</span></label>
@@ -179,7 +185,7 @@
 <div class="modal fade" id="foto" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-			<form action="<?php echo base_url(); ?>Admin/update_foto_mentor/<?php echo $mentor[0]->NRPmentor ?>" method="post" enctype="multipart/form-data">
+			<form action="<?php echo base_url(); ?>Admin/update_foto_mentor/<?php echo $mentor[0]->NRPmentor.'/'.$tahun_selected.'/'.$semester_selected ?>" method="post" enctype="multipart/form-data">
 				<div class="modal-header">
 					<h4 class="modal-title" id="defaultModalLabel">Update Foto</h4>
 				</div>
@@ -207,7 +213,7 @@
 <div class="modal fade" id="cv" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-			<form action="<?php echo base_url(); ?>Admin/update_cv_mentor/<?php echo $mentor[0]->NRPmentor ?>" method="post" enctype="multipart/form-data">
+			<form action="<?php echo base_url(); ?>Admin/update_cv_mentor/<?php echo $mentor[0]->NRPmentor.'/'.$tahun_selected.'/'.$semester_selected ?>" method="post" enctype="multipart/form-data">
 				<div class="modal-header">
 					<h4 class="modal-title" id="defaultModalLabel">Update CV</h4>
 				</div>

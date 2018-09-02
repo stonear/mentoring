@@ -15,6 +15,11 @@ class Mentor_model extends CI_Model
 		$query = $this->db->query("SELECT DISTINCT m.NRPmentor AS nrp, m.nama AS nama FROM simits_mentor AS m, simits_kelompokmentoring AS km, simits_kelas AS k WHERE m.NRPmentor = km.NRPmentor AND km.IDkelas = k.IDkelas AND k.tahun = ? AND k.semester = ?", array($tahun, $semester));
 		return $query->result();
 	}
+	function select_mentor3($tahun, $semester)
+	{
+		$query = $this->db->query("SELECT m.NRPmentor, m.nama, m.jenis_kelamin FROM simits_mentor AS m, simits_smtmentor AS sm WHERE m.NRPmentor = sm.nrp AND sm.tahun = ? AND sm.semester = ?", array($tahun, $semester));
+		return $query->result();
+	}
 	function select_mentor_byNRP($nrp)
 	{
 		$query = $this->db->query("SELECT * FROM simits_mentor WHERE NRPmentor = ?", array($nrp));

@@ -107,6 +107,12 @@
 		</a>
 	</li>
 	<li class="header">OTHER</li>
+	<li class="<?php if($title == 'Registrasi Ulang'){echo 'active';} ?>">
+		<a href="<?php echo base_url(); ?>Mentor/reg">
+			<i class="material-icons <?php if($title == 'Registrasi Ulang'){echo 'col-light-blue';} ?>">edit</i>
+			<span>Registrasi Ulang</span>
+		</a>
+	</li>
 	<li class="<?php if($title == 'Password'){echo 'active';} ?>">
 		<a href="<?php echo base_url(); ?>Mentor/password">
 			<i class="material-icons <?php if($title == 'Password'){echo 'col-light-blue';} ?>">vpn_key</i>
