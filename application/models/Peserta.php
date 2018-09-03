@@ -11,6 +11,11 @@ class Peserta extends CI_Model
 		{
 			$query = $this->db->query("INSERT INTO simits_peserta(NRPpeserta, nama, IDkelas, IDkelompok, jeniskelamin) VALUES (?, ?, ?, ?, ?)", array($nrp, $nama, $kelas, $kelompok, $jeniskelamin));
 		}
+		else
+		{
+			// untuk peserta ngulang
+			$query = $this->db->query("UPDATE simits_peserta SET kelas = ? WHERE NRPpeserta = ?", array($kelas, $nrp));
+		}
 	}
 	function select_peserta($IDkelas, $IDkelompok)
 	{
