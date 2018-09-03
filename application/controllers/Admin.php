@@ -2332,7 +2332,14 @@ class Admin extends CI_Controller
 						foreach($mahasiswa as $m)
 						{
 							$biodata = $this->api->get_data_mhs($m->nrp);
-							$this->peserta->create_peserta($m->nrp, $m->nama, $IDkelas[0]->IDkelas, -1, $biodata[0]->jenis_kelamin);
+							if (count($biodata))
+							{
+								$this->peserta->create_peserta($m->nrp, $m->nama, $IDkelas[0]->IDkelas, -1, $biodata[0]->jenis_kelamin);
+							}
+							else
+							{
+								$this->peserta->create_peserta($m->nrp, $m->nama, $IDkelas[0]->IDkelas, -1, '-');
+							}
 						}
 					}
 				}
