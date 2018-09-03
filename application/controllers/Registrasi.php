@@ -125,9 +125,9 @@ class Registrasi extends CI_Controller
 		$this->load->view('registrasi/registrasi', $data);
 	}
 
-	public function verifikasi($token = "")
+	public function verifikasi($nrp = "", $token = "")
 	{
-		$response = $this->verification->check_verification($token);
+		$response = $this->verification->check_verification($nrp, $token);
 		$this->session->sess_destroy();
 		if ($response == 'Success')
 		{

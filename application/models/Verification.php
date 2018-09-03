@@ -21,7 +21,7 @@ class Verification extends CI_Model
 		$this->email->from('mentoring.its.ac.id@gmail.com', 'No Reply ~ Mentoring ITS');   
 		$this->email->to($email);   
 		$this->email->subject('Verifikasi Akun Mentoring ITS');   
-		$this->email->message('Halo '.$nama.', mohon verifikasi alamat email anda dengan cara klik tautan berikut ini.<br><a href="'.base_url('Registrasi/verifikasi/'.$token).'"><b>Klik di sini</b></a><br>Username: '.$nrp.'<br>Password: '.$nrp.'<br>Email ini dikirimkan secara otomatis. Mohon tidak membalas ke email ini.');
+		$this->email->message('Halo '.$nama.', mohon verifikasi alamat email anda dengan cara klik tautan berikut ini.<br><a href="'.base_url('Registrasi/verifikasi/'.$nrp.'/'.$token).'"><b>Klik di sini</b></a><br>Username: '.$nrp.'<br>Password: '.$nrp.'<br>Email ini dikirimkan secara otomatis. Mohon tidak membalas ke email ini.');
 	   	if (!$this->email->send())
 		{  
 			return $this->email->print_debugger();   
@@ -31,9 +31,9 @@ class Verification extends CI_Model
 			return 'Success';
 		}
 	}
-	function check_verification($token)
+	function check_verification($nrp, $token)
 	{
-		$query = $this->db->query("SELECT NRPmentor FROM simits_mentor WHERE kode_verifikasi = ?", array($token));
+		$query = $this->db->query("SELECT NRPmentor FROM simits_mentor WHERE NRPmentor = ? AND kode_verifikasi = ?", array($nrp, $token));
 		$result = $query->result();
 		if (count($result) > 0)
 		{
