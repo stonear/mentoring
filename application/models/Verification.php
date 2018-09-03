@@ -49,5 +49,9 @@ class Verification extends CI_Model
 	{
 		$query = $this->db->query("UPDATE simits_mentor SET verified = ?, kode_verifikasi = ? WHERE NRPmentor = ?", array(1, NULL, $id));
 	}
+	function update_kode($nrp, $kode_verifikasi)
+	{
+		$query = $this->db->query("UPDATE simits_mentor SET kode_verifikasi = ? WHERE NRPmentor = ?", array($kode_verifikasi, $nrp));
+	}
 }
 ?>

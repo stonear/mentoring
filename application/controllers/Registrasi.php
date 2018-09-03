@@ -161,7 +161,9 @@ class Registrasi extends CI_Controller
 		$mentor = $this->mentor_model->select_mentor_byNRP($nrp);
 		foreach ($mentor as $m)
 		{
-			$response = $this->verification->send_verification($m->email, $m->nama, $m->kode_verifikasi, $nrp);
+			$kode_verifikasi = md5($m->kode_verifikasi);
+			$this->verification->update_kode($nrp, $kode_verifikasi);
+			$response = $this->verification->send_verification($m->email, $m->nama, $kode_verifikasi, $nrp);
 			if ($response == 'Success')
 			{
 				$data = array
