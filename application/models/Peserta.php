@@ -14,7 +14,7 @@ class Peserta extends CI_Model
 		else
 		{
 			// untuk peserta ngulang
-			$query = $this->db->query("UPDATE simits_peserta SET kelas = ? WHERE NRPpeserta = ?", array($kelas, $nrp));
+			$query = $this->db->query("UPDATE simits_peserta SET IDkelas = ? WHERE NRPpeserta = ?", array($kelas, $nrp));
 		}
 	}
 	function select_peserta($IDkelas, $IDkelompok)
