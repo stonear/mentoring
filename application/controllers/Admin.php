@@ -2273,12 +2273,14 @@ class Admin extends CI_Controller
 		$semester = $this->security->xss_clean($semester);
 
 		$idUPMB = '__TPB';
-		// 13030, 21030, 21039, 22030, 22039, 23030, 24031, 31030, 31041
-		$listKelas = array('__TPB', '13030', '21030', '21039', '22030', '22039', '23030', '24031', '31030', '31041', '21038', '22038', '22040', '31031', '31032', '31040');
+
+		// $listKelas = array('__TPB', '13030', '21030', '21039', '22030', '22039', '23030', '24031', '31030', '31041', '21038', '22038', '22040', '31031', '31032', '31040');
 		// $kelas = $this->api->get_daftar_kelas($idUPMB, $tahun, $semester);
 
+		$listKelas = array('__TPB', '13030', '21030', '21038', '21039', '22030', '22038', '22039', '23030', '23039', '24030', '24031', '31030', '31031', '31032', '31033', '31038', '31039', '61030', '62030', '63030', '64030', '71030', '72030', '73030', '74030', '31040', '31041', '33040', '65040', '71040', '72040', '73040', '74040');
+
 		$IDagama = 'IG1101';
-		$IDagama_baru = 'UG4901';
+		$IDagama_baru = array('UG0901', 'UG1901', 'UG4901');
 		
 		// foreach($kelas as $k)
 		// {
@@ -2317,18 +2319,21 @@ class Admin extends CI_Controller
 						$this->peserta->create_peserta($m->nrp, $m->nama, $IDkelas[0]->IDkelas, -1, $biodata[0]->jenis_kelamin);
 					}
 				}
-				if ($k->mata_kuliah->id == $IDagama_baru)
+				foreach ($IDagama_baru as $ida)
 				{
-					$this->kelas->create_kelas($k->kelas, $k->nip_dosen, $tahun, $semester);
-					$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas);
-
-					$this->dosen->create_dosen($k->nip_dosen, $k->dosen);
-
-					$mahasiswa = $this->api->get_daftar_mhs($lk, $IDagama_baru, $k->kelas, $tahun, $semester);
-					foreach($mahasiswa as $m)
+					if ($k->mata_kuliah->id == $ida)
 					{
-						$biodata = $this->api->get_data_mhs($m->nrp);
-						$this->peserta->create_peserta($m->nrp, $m->nama, $IDkelas[0]->IDkelas, -1, $biodata[0]->jenis_kelamin);
+						$this->kelas->create_kelas($k->kelas, $k->nip_dosen, $tahun, $semester);
+						$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas);
+
+						$this->dosen->create_dosen($k->nip_dosen, $k->dosen);
+
+						$mahasiswa = $this->api->get_daftar_mhs($lk, $ida, $k->kelas, $tahun, $semester);
+						foreach($mahasiswa as $m)
+						{
+							$biodata = $this->api->get_data_mhs($m->nrp);
+							$this->peserta->create_peserta($m->nrp, $m->nama, $IDkelas[0]->IDkelas, -1, $biodata[0]->jenis_kelamin);
+						}
 					}
 				}
 			}
