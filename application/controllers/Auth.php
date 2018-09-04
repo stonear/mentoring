@@ -65,7 +65,9 @@ class Auth extends CI_Controller
 					'nrp' => $mentor[0]->NRPmentor,
 					'status' => 'login',
 					'role' => 'Mentor',
-					'verified' => $mentor[0]->verified
+					'verified' => $mentor[0]->verified,
+
+					'password' => $mentor[0]->password
 				);
 				$this->session->set_userdata($data_session);
 				redirect('Mentor');

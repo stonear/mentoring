@@ -777,6 +777,9 @@ class Mentor extends CI_Controller
 			if ($password2 == $password3)
 			{
 				$this->database->update_password_mentor($this->data['nrp'], $password2);
+
+				$this->session->set_userdata('password', password_hash($password2, PASSWORD_BCRYPT));
+
 				$this->session->set_flashdata('message', 'Password berhasil diperbarui');
 				$this->session->set_flashdata('message_bg', 'bg-green');
 			}

@@ -1,4 +1,23 @@
 <div class="row clearfix">
+    <?php if(password_verify($nrp, $this->session->userdata('password'))): ?>
+        <div class="col-xs-12">
+            <div class="card">
+                <div class="header bg-red">
+                    <h2>Ganti Password</h2>
+                    <ul class="header-dropdown m-r-0">
+                        <li>
+                            <a href="javascript:void(0);">
+                                <i class="material-icons">vpn_key</i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body">
+                    Ganti <i>password</i> secara berkala untuk memastikan akun anda tetap aman. Klik <a href="<?php echo base_url(); ?>Mentor/password">di sini</a> untuk ganti <i>password</i>.
+                </div>
+            </div>
+        </div>
+    <?php endif ?>
     <div class="col-xs-12">
         <div class="card">
             <div class="header">
