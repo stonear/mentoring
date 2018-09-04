@@ -8,17 +8,38 @@ class Registrasi extends CI_Controller
 		parent::__construct();
 		$this->load->library('session');
 		$this->load->model('api');
+		$this->load->model('jadwalregistrasi');
 		$this->load->model('mentor_model');
 		$this->load->model('smtmentor');
 		$this->load->model('verification');
 	}
 	public function index()
 	{
-		$data = array
-		(
-			'title' => 'Registrasi'
-		);
-		$this->load->view('registrasi/registrasi', $data);
+		$jadwalregistrasi = $this->jadwalregistrasi->select();
+		foreach ($jadwalregistrasi as $j)
+		{
+			if ($j->setting == 'start') $start = DateTime::createFromFormat('d M Y - H:i', $j->tanggal);
+			if ($j->setting == 'end') $end = DateTime::createFromFormat('d M Y - H:i', $j->tanggal);
+		}
+		$now = new DateTime('now');
+
+		if ($now > $start and $now < $end)
+		{
+			$data = array
+			(
+				'title' => 'Registrasi'
+			);
+			$this->load->view('registrasi/registrasi', $data);
+		}
+		else
+		{
+			$data = array
+			(
+				'title' => 'Registrasi'
+			);
+			$this->load->view('registrasi/expired', $data);
+		}
+
 	}
 	public function get_nama()
 	{

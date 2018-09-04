@@ -20,6 +20,7 @@ class Admin extends CI_Controller
 		$this->load->model('fileabsenmentor');
 		$this->load->model('jadwal');
 		$this->load->model('jadwalmentor');
+		$this->load->model('jadwalregistrasi');
 		$this->load->model('kelas');
 		$this->load->model('kelompok');
 		$this->load->model('masternilai');
@@ -2049,6 +2050,101 @@ class Admin extends CI_Controller
 		);
 		$this->load->view('master-layout', $data);
 	}
+	public function download_pembina()
+	{
+		$this->load->library('excel');
+		$styleArray = array
+		(
+			'borders' => array
+			(
+				'allborders' => array
+				(
+					'style' => PHPExcel_Style_Border::BORDER_THIN,
+					'color' => array
+					(
+						'argb' => '00000000'
+					), 
+				), 
+			), 
+		);
+		$fontHeader = array
+		( 
+			'font' => array
+			(
+				'bold' => true
+			),
+			'alignment' => array
+			(
+				'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+				'vertical'   => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+				'rotation'   => 0,
+			),
+			'fill' => array
+			(
+				'type' => PHPExcel_Style_Fill::FILL_SOLID,
+				'color' => array('rgb' => '6CCECB')
+			)
+		);
+		$bold = array
+		(
+			'font' => array
+			(
+				'bold' => true
+			)
+		);
+		$objPHPExcel = new PHPExcel();
+		$objPHPExcel->getProperties()->setTitle("SIMITS")->setDescription("sistem informasi mentoring ITS")->setCreator("ITS")->setLastModifiedBy("ITS");
+
+		if ($semester == 1) $smt = 'GASAL';
+		else $smt = 'GENAP';
+		$title = 'DAFTAR DOSEN PEMBINA MENTORING ITS';
+
+		$objPHPExcel->getActiveSheet()->setTitle('Dosen Pembina');
+		$objPHPExcel->getActiveSheet()->mergeCells('A1:C1');
+		$objPHPExcel->getActiveSheet()->setCellValue('A1', $title);
+		$objPHPExcel->getActiveSheet()->getStyle('A1')->applyFromArray($bold);
+
+		$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
+
+		$objPHPExcel->getActiveSheet()->setCellValue('A2', 'NO');
+		$objPHPExcel->getActiveSheet()->setCellValue('B2', 'NIP');
+		$objPHPExcel->getActiveSheet()->setCellValue('C2', 'NAMA');
+		$objPHPExcel->getActiveSheet()->getStyle('A2:C2')->applyFromArray($fontHeader);
+		$objPHPExcel->getActiveSheet()->getStyle('A2:C2')->applyFromArray($styleArray);
+
+		$pembina = $this->pembina->select_pembina();
+
+		$no = 1;
+		$row = 3;
+		foreach ($pembina as $p)
+		{
+			$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $no++);
+			$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $p->NIKdosenpembina);
+			$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $p->nama);
+			$objPHPExcel->getActiveSheet()->getStyle('A'.$row.':C'.$row)->applyFromArray($styleArray);
+			$row++;
+		}
+
+		// Redirect output to a client’s web browser (Excel2007)
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="pembina.xlsx"');
+		header('Cache-Control: max-age=0');
+		// If you're serving to IE 9, then the following may be needed
+		header('Cache-Control: max-age=1');
+
+		// If you're serving to IE over SSL, then the following may be needed
+		header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+		header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+		header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+		header ('Pragma: public'); // HTTP/1.0
+
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+		ob_end_clean();
+		$objWriter->save('php://output');
+	}
 	public function tambah_pembina()
 	{
 		$nik = $this->input->post('nik');
@@ -2795,5 +2891,37 @@ class Admin extends CI_Controller
 			$this->session->set_flashdata('message_bg', 'bg-green');
 		}
 		redirect('Admin/cvmentor');
+    }
+    public function jadwalregistrasi()
+    {
+    	$data = array
+		(
+			'nama' => $this->data['nama'],
+			'nrp' => $this->data['nrp'],
+			'role' => $this->data['role'],
+			'title' => 'Jadwal Registrasi Mentor',
+			'module' => 'jadwalregistrasi',
+
+			'jadwalregistrasi' => $this->jadwalregistrasi->select(),
+
+			'message' => $this->session->flashdata('message'),
+			'message_bg' => $this->session->flashdata('message_bg')
+		);
+		$this->load->view('master-layout', $data);
+    }
+    public function jadwalregistrasi2()
+    {
+    	$start = $this->input->post('start');
+		$start = $this->security->xss_clean($start);
+		$end = $this->input->post('end');
+		$end = $this->security->xss_clean($end);
+
+		$this->jadwalregistrasi->update('start', $start);
+		$this->jadwalregistrasi->update('end', $end);
+
+		$this->session->set_flashdata('message', 'Berhasil mengupdate jadwal registrasi mentor');
+		$this->session->set_flashdata('message_bg', 'bg-green');
+
+		redirect('Admin/jadwalregistrasi');
     }
 }

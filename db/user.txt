@@ -15,5 +15,5 @@ pembina
 pembina
 
 How to use?
-1. Import SQL
+1. Import semua file SQL
 2. $this->database->up();

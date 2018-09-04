@@ -1,8 +1,13 @@
 <div class="row clearfix">
-    <div class="col-xs-12 text-right tambah-pembina">
+    <div class="col-xs-8">
+            <a href="<?php echo base_url(); ?>Admin/download_pembina" class="btn bg-light-blue waves-effect" data-toggle="tooltip" data-placement="right" title="download data pembina"><i class="material-icons">file_download</i> Download Data Pembina (xlsx)</a>
+        </div>
+    <div class="col-xs-4 text-right tambah-pembina">
         <button type="button" class="btn bg-light-blue waves-effect" data-toggle="tooltip" data-placement="left" title="tambah dosen pembina"><i class="material-icons">add</i> Tambah Dosen Pembina</button>
         <br><br>
     </div>
+</div>
+<div class="row clearfix">
     <div class="col-xs-12">
         <div class="card">
             <div class="header">

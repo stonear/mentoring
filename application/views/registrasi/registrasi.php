@@ -223,6 +223,7 @@
                                             <input style="opacity: 0; cursor: pointer;" type="file" id="file" name="file" class="form-control" required>
                                             <label for="file" id="labelfile" style="cursor: pointer;">Pilih file CV . . .</label>
                                         </div>
+                                        <small>Format file yang diperbolehkan adalah <strong>doc/docx</strong>.</small>
                                     </div>
                                 </fieldset>
                             </form>

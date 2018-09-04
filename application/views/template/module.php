@@ -62,6 +62,12 @@
 			<span>Template CV Mentor</span>
 		</a>
 	</li>
+	<li class="<?php if($title == 'Jadwal Registrasi Mentor'){echo 'active';} ?>">
+		<a href="<?php echo base_url(); ?>Admin/jadwalregistrasi">
+			<i class="material-icons <?php if($title == 'Jadwal Registrasi Mentor'){echo 'col-light-blue';} ?>">date_range</i>
+			<span>Jadwal Registrasi Mentor</span>
+		</a>
+	</li>
 	<li class="<?php if($title == 'Mentor'){echo 'active';} ?>">
 		<a href="<?php echo base_url(); ?>Admin/mentor">
 			<i class="material-icons <?php if($title == 'Mentor'){echo 'col-light-blue';} ?>">class</i>
