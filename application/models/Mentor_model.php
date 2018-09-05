@@ -42,6 +42,10 @@ class Mentor_model extends CI_Model
 	{
 		$query = $this->db->query("UPDATE simits_mentor SET password = ? WHERE NRPmentor = ?", array(password_hash($password, PASSWORD_BCRYPT), $nrp));
 	}
+	function update_namamentor($nrp, $nama)
+	{
+		$query = $this->db->query("UPDATE simits_mentor SET nama = ? WHERE NRPmentor = ?", array($nama, $nrp));
+	}
 	function update_foto($nrp, $link)
 	{
 		$query = $this->db->query("UPDATE simits_mentor SET linkfoto = ? WHERE NRPmentor = ?", array($link, $nrp));

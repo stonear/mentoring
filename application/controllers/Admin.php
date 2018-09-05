@@ -1749,6 +1749,22 @@ class Admin extends CI_Controller
 
 		$mentor = $this->mentor_model->select_mentor3($tahun, $semester);
 
+		$updated = false;
+		foreach ($mentor as $m)
+		{
+			if (empty($m->nama))
+			{
+				$nama = $this->api->get_data_mhs($m->NRPmentor);
+				$nama = $nama[0]->nama_lengkap;
+				$this->mentor_model->update_namamentor($m->NRPmentor, $nama);
+				$updated = true;
+			}
+		}
+		if ($updated)
+		{
+			$mentor = $this->mentor_model->select_mentor3($tahun, $semester);
+		}
+
 		$data = array
 		(
 			'nama' => $this->data['nama'],

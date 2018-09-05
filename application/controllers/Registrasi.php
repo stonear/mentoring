@@ -54,8 +54,13 @@ class Registrasi extends CI_Controller
 	{
 		$NRPmentor = $this->input->post('nrp');
 		$NRPmentor = $this->security->xss_clean($NRPmentor);
-		$nama = $this->input->post('nama');
-		$nama = $this->security->xss_clean($nama);
+
+		// $nama = $this->input->post('nama');
+		// $nama = $this->security->xss_clean($nama);
+		
+		$nama = $this->api->get_data_mhs($NRPmentor);
+		$nama = $nama[0]->nama_lengkap;
+
 		$jenis = $this->input->post('jenis');
 		$jenis = $this->security->xss_clean($jenis);
 		if ($jenis == 'Laki-Laki') $jenis_kelamin = 'L';
