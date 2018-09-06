@@ -20,6 +20,10 @@
   <link href="<?php echo base_url(); ?>asset/plugins/animate-css/animate.css" rel="stylesheet" />
   <!-- Multi Select Css -->
   <link href="<?php echo base_url(); ?>asset/plugins/multi-select/css/multi-select.css" rel="stylesheet">
+
+  <!-- Sweetalert Css -->
+  <link href="<?php echo base_url(); ?>asset/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+
   <!-- Custom Css -->
   <link href="<?php echo base_url(); ?>asset/css/style.css" rel="stylesheet">
   <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
@@ -98,13 +102,13 @@
                                     </div>
                                     <div class="form-group form-float">
                                         <div class="form-line focused">
-                                            <input type="text" class="form-control nama" name="nama" readonly>
+                                            <input type="text" class="form-control nama" name="nama" required readonly>
                                             <label class="form-label">Nama (Otomatis)</label>
                                         </div>
                                     </div>
                                     <div class="form-group form-float">
                                         <div class="form-line focused">
-                                            <input type="text" class="form-control jenis" name="jenis" readonly>
+                                            <input type="text" class="form-control jenis" name="jenis" required readonly>
                                             <label class="form-label">Jenis Kelamin (Otomatis)</label>
                                         </div>
                                     </div>
@@ -251,6 +255,10 @@
     <!-- Jquery Validation Plugin Css -->
     <script src="<?php echo base_url(); ?>asset/plugins/jquery-validation/jquery.validate.js"></script>
     <script src="<?php echo base_url(); ?>asset/plugins/jquery-validation/additional-methods.js"></script>
+
+    <!-- SweetAlert Plugin Js -->
+    <script src="<?php echo base_url(); ?>asset/plugins/sweetalert/sweetalert.min.js"></script>
+
     <script>
         $(function () {
             var form = $('#wizard_form').show();
@@ -327,6 +335,14 @@
                     dataType : 'json',
                     success: function(data)
                     {
+                        if (data.length == 0)
+                        {
+                            // alert("NRP anda belum terdaftar di integra.");
+                            swal("NRP anda belum terdaftar di integra!");
+                            $('input.nama').val("");
+                            $('input.jenis').val("");
+                        }
+
                         var html_nama = '';
                         var html_jenis = '';
                         var i;
@@ -336,8 +352,10 @@
                            if (data[i].jenis_kelamin == 'L') html_jenis = 'Laki-Laki';
                             else html_jenis = 'Perempuan';
                         }
-                        $('input.nama').attr("value", html_nama);
-                        $('input.jenis').attr("value", html_jenis);
+                        // $('input.nama').attr("value", html_nama);
+                        // $('input.jenis').attr("value", html_jenis);
+                        $('input.nama').val(html_nama);
+                        $('input.jenis').val(html_jenis);
                     }
                 });
             });

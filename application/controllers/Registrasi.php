@@ -59,6 +59,16 @@ class Registrasi extends CI_Controller
 		// $nama = $this->security->xss_clean($nama);
 		
 		$nama = $this->api->get_data_mhs($NRPmentor);
+		if(empty($nama))
+		{
+			$data = array
+			(
+				'title' => 'Registrasi',
+				'error' => 'NRP belum terdaftar di Integra'
+			);
+			$this->load->view('registrasi/registrasi', $data);
+			return;
+		}
 		$nama = $nama[0]->nama_lengkap;
 
 		$jenis = $this->input->post('jenis');
