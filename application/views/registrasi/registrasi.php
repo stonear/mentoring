@@ -97,7 +97,7 @@
                                     <div class="form-group form-float">
                                         <div class="form-line">
                                             <input type="text" class="form-control" id="nrp" name="nrp" required autofocus>
-                                            <label class="form-label">NRP</label>
+                                            <label class="form-label">NRP (Contoh: 05111540007001)</label>
                                         </div>
                                     </div>
                                     <div class="form-group form-float">
@@ -124,26 +124,26 @@
                                     <div class="form-group form-float">
                                         <div class="form-line">
                                             <input type="text" class="form-control" name="telp" pattern="[0-9]{11,13}" required>
-                                            <label class="form-label">No Telepon</label>
+                                            <label class="form-label">No Telepon (Contoh: 081249262464)</label>
                                         </div>
                                     </div>
                                     <div class="form-group form-float">
                                         <div class="form-line">
                                             <input type="email" class="form-control" name="email" required>
-                                            <label class="form-label">Email</label>
+                                            <label class="form-label">Email (Contoh: rozanafirdausi12@gmail.com)</label>
                                         </div>
                                     </div>
                                     <div class="form-group form-float">
                                         <div class="form-line">
                                             <input type="text" class="form-control" name="alamat" required>
-                                            <label class="form-label">Alamat</label>
+                                            <label class="form-label">Alamat (Contoh: ds. Kemaduh kec. Baron kab. Nganjuk)</label>
                                         </div>
                                     </div>
                                 </fieldset>
 
                                 <h3>Keterangan (1)</h3>
                                 <fieldset>
-                                    <label for="nilai">Nilai Mata Kuliah Agama</label>
+                                    <label for="nilai">Nilai Mata Kuliah Agama (Contoh: A)</label>
                                     <br>
                                     <select name="nilai" required>
                                         <option disabled selected style="display:none">Pilih Nilai</option>
@@ -152,7 +152,7 @@
                                         <option value="B">B</option>
                                     </select>
                                     <br>
-                                    <label for="pernah">Pernah Menjadi Mentor pada Semester</label>
+                                    <label for="pernah">Pernah Menjadi Mentor pada Semester (Contoh: Tidak Pernah)</label>
                                     <br>
                                     <select name="pernah" required>
                                         <option value=0>Tidak Pernah</option>
@@ -190,7 +190,7 @@
                                     <div class="form-group form-float">
                                         <div class="form-line">
                                             <input type="number" class="form-control" id="tahun" name="tahun" required>
-                                            <label class="form-label">Pendaftaran Mentor untuk Tahun Ajaran ...</label>
+                                            <label class="form-label">Pendaftaran Mentor untuk Tahun Ajaran ... (Contoh: 2018)</label>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -201,7 +201,7 @@
                                     <div class="form-group">
                                         <div class="form-line">
                                             <select class="form-control show-tick" name="semester" required>
-                                                <option disabled selected style="display:none">Pendaftaran Mentor untuk Semester ...</option>
+                                                <option disabled selected style="display:none">Pendaftaran Mentor untuk Semester ... (Contoh: Semester Gasal)</option>
                                                 <option value="1">Semester Gasal</option>
                                                 <option value="2">Semester Genap</option>
                                             </select>
