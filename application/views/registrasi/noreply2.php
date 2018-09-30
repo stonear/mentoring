@@ -31,8 +31,10 @@
                         </div>
                         <div class="body">
                             <p>
-                            	Pendaftaran berhasil. Namun terjadi error pada saat pengiriman email.
-                                Error sebagai berikut: <?php echo $error ?>
+                            	<!-- Pendaftaran berhasil. Namun terjadi error pada saat pengiriman email.
+                                Error sebagai berikut: <?php echo $error ?> -->
+                                <!-- Ket: tidak jadi ada verifikasi -->
+                                Pendaftaran berhasil.
                             </p>
                             <!-- Silahkan cek email anda untuk melakukan aktivasi. -->
                         </div>

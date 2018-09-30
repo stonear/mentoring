@@ -31,7 +31,9 @@
                         </div>
                         <div class="body">
                             <p>
-                            	Pendaftaran berhasil. Silahkan cek email anda untuk melakukan aktivasi.
+                            	<!-- Pendaftaran berhasil. Silahkan cek email anda untuk melakukan aktivasi. -->
+                                <!-- Ket: tidak jadi ada verifikasi -->
+                                Pendaftaran berhasil.
                             </p>
                         </div>
                     </div>

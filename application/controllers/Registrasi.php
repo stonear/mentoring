@@ -123,7 +123,9 @@ class Registrasi extends CI_Controller
 				$password = password_hash($NRPmentor, PASSWORD_BCRYPT);
 				$linkfoto = NULL;
 				$kode_verifikasi = md5($NRPmentor);
-				$verified = 0;
+				// $verified = 0;
+				// tidak jadi ada verifikasi email
+				$verified = 1;
 				$this->mentor_model->registrasi($NRPmentor, $nama, $jenis_kelamin, $no_telp, $email, $alamat, $pernah_jadi_mentor, $cv, $password, $linkfoto, $kode_verifikasi, $verified, $nilai);
 
 				$this->smtmentor->registrasi($NRPmentor, $tahun, $semester);

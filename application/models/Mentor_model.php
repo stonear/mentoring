@@ -32,7 +32,7 @@ class Mentor_model extends CI_Model
 	}
 	function create_mentor($nrp, $nama)
 	{
-		$query = $this->db->query("INSERT INTO simits_mentor(NRPmentor, nama , password) VALUES (?, ?, ?)", array($nrp, $nama, password_hash($nrp, PASSWORD_BCRYPT)));
+		$query = $this->db->query("INSERT INTO simits_mentor(NRPmentor, nama , password, verified) VALUES (?, ?, ?, ?)", array($nrp, $nama, password_hash($nrp, PASSWORD_BCRYPT), 1));
 	}
 	function registrasi($NRPmentor, $nama, $jenis_kelamin, $no_telp, $email, $alamat, $pernah_jadi_mentor, $cv, $password, $linkfoto, $kode_verifikasi, $verified, $nilai)
 	{
