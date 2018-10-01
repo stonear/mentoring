@@ -30,6 +30,7 @@ class Admin extends CI_Controller
 		$this->load->model('peserta');
 		$this->load->model('pembina');
 		$this->load->model('smtmentor');
+		$this->load->model('verification');
 
 		if($this->session->userdata('status') != 'login' or $this->session->userdata('role') != 'Admin')
 		{
@@ -2010,6 +2011,8 @@ class Admin extends CI_Controller
 			// }
 
 			if ($this->mentor_model->exist_mentor($nrp) == false) $this->mentor_model->create_mentor($nrp, $mentor[0]->nama);
+
+			$this->verification->verify($nrp);
 			$this->smtmentor->registrasi($nrp, $tahun, $semester);
 
 			$this->session->set_flashdata('message', 'Berhasil menambah mentor');
