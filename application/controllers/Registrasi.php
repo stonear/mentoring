@@ -135,7 +135,8 @@ class Registrasi extends CI_Controller
 				{
 					$data = array
 					(
-						'title' => 'No Reply'
+						'title' => 'No Reply',
+						'NRPmentor' => $NRPmentor
 					);
 					$this->load->view('registrasi/noreply', $data);
 					return;
@@ -146,6 +147,7 @@ class Registrasi extends CI_Controller
 					$data = array
 					(
 						'title' => 'No Reply',
+						'NRPmentor' => $NRPmentor,
 						'error' => $error
 					);
 					$this->load->view('registrasi/noreply2', $data);

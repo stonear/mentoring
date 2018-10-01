@@ -34,7 +34,10 @@
                             	<!-- Pendaftaran berhasil. Namun terjadi error pada saat pengiriman email.
                                 Error sebagai berikut: <?php echo $error ?> -->
                                 <!-- Ket: tidak jadi ada verifikasi -->
-                                Pendaftaran berhasil.
+                                Pendaftaran berhasil.<br><br>
+                                Username: <?php echo $NRPmentor ?><br>
+                                Password: <?php echo $NRPmentor ?><br><br>
+                                <a href="<?php echo base_url(); ?>">Kembali ke halaman awal.</a>
                             </p>
                             <!-- Silahkan cek email anda untuk melakukan aktivasi. -->
                         </div>
