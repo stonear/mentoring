@@ -1760,6 +1760,13 @@ class Admin extends CI_Controller
 				$this->mentor_model->update_namamentor($m->NRPmentor, $nama);
 				$updated = true;
 			}
+			if (empty($m->jenis_kelamin))
+			{
+				$jenis_kelamin = $this->api->get_data_mhs($m->NRPmentor);
+				$jenis_kelamin = $jenis_kelamin[0]->jenis_kelamin;
+				$this->mentor_model->update_jkmentor($m->NRPmentor, $jenis_kelamin);
+				$updated = true;
+			}
 		}
 		if ($updated)
 		{
@@ -2010,7 +2017,7 @@ class Admin extends CI_Controller
 			// 	$this->session->set_flashdata('message_bg', 'bg-green');
 			// }
 
-			if ($this->mentor_model->exist_mentor($nrp) == false) $this->mentor_model->create_mentor($nrp, $mentor[0]->nama);
+			if ($this->mentor_model->exist_mentor($nrp) == false) $this->mentor_model->create_mentor($nrp, $mentor[0]->nama, $mentor[0]->jenis_kelamin);
 
 			$this->verification->verify($nrp);
 			$this->smtmentor->registrasi($nrp, $tahun, $semester);
