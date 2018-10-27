@@ -2534,7 +2534,7 @@ class Admin extends CI_Controller
 			'title' => 'Berita',
 			'module' => 'berita',
 
-			'berita' => $this->berita->select_berita(5),
+			'berita' => $this->berita->select_berita(0),
 
 			'message' => $this->session->flashdata('message'),
 			'message_bg' => $this->session->flashdata('message_bg')
