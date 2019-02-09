@@ -30,9 +30,9 @@ class Mentor_model extends CI_Model
 		$query = $this->db->query("SELECT DISTINCT m.NRPmentor AS nrp, m.nama AS nama FROM simits_mentor AS m, simits_kelompokmentoring AS km, simits_kelas AS k WHERE m.NRPmentor = km.NRPmentor AND km.IDkelas = k.IDkelas AND km.NIKdosenpembina = ? AND k.tahun = ? AND k.semester = ?", array($pembina, $tahun, $semester));
 		return $query->result();
 	}
-	function create_mentor($nrp, $nama, $jenis_kelamin)
+	function create_mentor($nrp, $nama)
 	{
-		$query = $this->db->query("INSERT INTO simits_mentor(NRPmentor, nama, jenis_kelamin, password, verified) VALUES (?, ?, ?, ?, ?)", array($nrp, $nama, $jenis_kelamin, password_hash($nrp, PASSWORD_BCRYPT), 1));
+		$query = $this->db->query("INSERT INTO simits_mentor(NRPmentor, nama , password) VALUES (?, ?, ?)", array($nrp, $nama, password_hash($nrp, PASSWORD_BCRYPT)));
 	}
 	function registrasi($NRPmentor, $nama, $jenis_kelamin, $no_telp, $email, $alamat, $pernah_jadi_mentor, $cv, $password, $linkfoto, $kode_verifikasi, $verified, $nilai)
 	{
@@ -45,10 +45,6 @@ class Mentor_model extends CI_Model
 	function update_namamentor($nrp, $nama)
 	{
 		$query = $this->db->query("UPDATE simits_mentor SET nama = ? WHERE NRPmentor = ?", array($nama, $nrp));
-	}
-	function update_jkmentor($nrp, $jenis_kelamin)
-	{
-		$query = $this->db->query("UPDATE simits_mentor SET jenis_kelamin = ? WHERE NRPmentor = ?", array($jenis_kelamin, $nrp));
 	}
 	function update_foto($nrp, $link)
 	{

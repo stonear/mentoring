@@ -27,9 +27,13 @@ class Registrasi extends CI_Controller
 		{
 			$data = array
 			(
-				'title' => 'Registrasi'
+				'title' => 'Registrasi',
+				'now' => $now
 			);
-			$this->load->view('registrasi/registrasi', $data);
+			$this->load->view('registrasi/registrasi',array
+			(
+				'title' => 'Registrasi'
+			));
 		}
 		else
 		{
@@ -123,9 +127,7 @@ class Registrasi extends CI_Controller
 				$password = password_hash($NRPmentor, PASSWORD_BCRYPT);
 				$linkfoto = NULL;
 				$kode_verifikasi = md5($NRPmentor);
-				// $verified = 0;
-				// tidak jadi ada verifikasi email
-				$verified = 1;
+				$verified = 0;
 				$this->mentor_model->registrasi($NRPmentor, $nama, $jenis_kelamin, $no_telp, $email, $alamat, $pernah_jadi_mentor, $cv, $password, $linkfoto, $kode_verifikasi, $verified, $nilai);
 
 				$this->smtmentor->registrasi($NRPmentor, $tahun, $semester);
@@ -135,8 +137,7 @@ class Registrasi extends CI_Controller
 				{
 					$data = array
 					(
-						'title' => 'No Reply',
-						'NRPmentor' => $NRPmentor
+						'title' => 'No Reply'
 					);
 					$this->load->view('registrasi/noreply', $data);
 					return;
@@ -147,7 +148,6 @@ class Registrasi extends CI_Controller
 					$data = array
 					(
 						'title' => 'No Reply',
-						'NRPmentor' => $NRPmentor,
 						'error' => $error
 					);
 					$this->load->view('registrasi/noreply2', $data);
