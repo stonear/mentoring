@@ -907,6 +907,15 @@ class Mentor extends CI_Controller
 	}
 	public function reg()
 	{
+		$yearnow = date("Y");
+		$month = date("m");
+		if($month<=3 && $month>=1){
+			$semester=2;
+			$year=$yearnow-1;
+		} elseif($month<=10 && $month>=8){
+			$semester=1;
+			$year=$yearnow;
+		}
 		$data = array
 		(
 			'nama' => $this->data['nama'],
@@ -914,7 +923,9 @@ class Mentor extends CI_Controller
 			'role' => $this->data['role'],
 			'title' => 'Registrasi Ulang',
 			'module' => 'registrasi',
-
+			'year' => $year,
+			'month' => $month,
+			'semester' => $semester,
 			'smtmentor' => $this->smtmentor->select_byNRP($this->data['nrp']),
 
 			'message' => $this->session->flashdata('message'),
