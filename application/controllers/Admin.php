@@ -30,6 +30,7 @@ class Admin extends CI_Controller
 		$this->load->model('peserta');
 		$this->load->model('pembina');
 		$this->load->model('smtmentor');
+		$this->load->model('verification');
 
 		if($this->session->userdata('status') != 'login' or $this->session->userdata('role') != 'Admin')
 		{
@@ -1759,6 +1760,13 @@ class Admin extends CI_Controller
 				$this->mentor_model->update_namamentor($m->NRPmentor, $nama);
 				$updated = true;
 			}
+			if (empty($m->jenis_kelamin))
+			{
+				$jenis_kelamin = $this->api->get_data_mhs($m->NRPmentor);
+				$jenis_kelamin = $jenis_kelamin[0]->jenis_kelamin;
+				$this->mentor_model->update_jkmentor($m->NRPmentor, $jenis_kelamin);
+				$updated = true;
+			}
 		}
 		if ($updated)
 		{
@@ -2009,7 +2017,9 @@ class Admin extends CI_Controller
 			// 	$this->session->set_flashdata('message_bg', 'bg-green');
 			// }
 
-			if ($this->mentor_model->exist_mentor($nrp) == false) $this->mentor_model->create_mentor($nrp, $mentor[0]->nama);
+			if ($this->mentor_model->exist_mentor($nrp) == false) $this->mentor_model->create_mentor($nrp, $mentor[0]->nama, $mentor[0]->jenis_kelamin);
+
+			$this->verification->verify($nrp);
 			$this->smtmentor->registrasi($nrp, $tahun, $semester);
 
 			$this->session->set_flashdata('message', 'Berhasil menambah mentor');
@@ -2524,7 +2534,7 @@ class Admin extends CI_Controller
 			'title' => 'Berita',
 			'module' => 'berita',
 
-			'berita' => $this->berita->select_berita(5),
+			'berita' => $this->berita->select_berita(0),
 
 			'message' => $this->session->flashdata('message'),
 			'message_bg' => $this->session->flashdata('message_bg')

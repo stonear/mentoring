@@ -26,7 +26,7 @@
 				<form autocomplete="off" action="<?php echo base_url(); ?>Mentor/reg2" method="POST">
 					<div class="form-group form-float">
 	                    <div class="form-line">
-	                        <input type="number" class="form-control" id="tahun" name="tahun" value="<?php echo $year; ?>" required>
+	                        <input type="number" class="form-control" id="tahun" name="tahun" required>
 	                        <label class="form-label">Registrasi Ulang Mentor untuk Tahun Ajaran ...</label>
 	                    </div>
 	                </div>
@@ -37,18 +37,10 @@
 	                </div>
 	                <div class="form-group">
 	                    <div class="form-line">
-	                        <select class="form-control show-tick" name="semester" value="1" required>
-	                            <option disabled selected style="display:none" >Registrasi Ulang Mentor untuk Semester ...</option>
-								<?php
-								if($semester==1){?>
-									<option value="<?php echo $semester; ?>" selected>Semester Gasal</option>
-	                            	<option value="<?php echo $semester; ?>">Semester Genap</option>
-								<?php } else {?>
-									<option value="<?php echo $semester; ?>">Semester Gasal</option>
-	                            	<option value="<?php echo $semester; ?>" selected>Semester Genap</option>
-								<?php }
-								?>
-	                            
+	                        <select class="form-control show-tick" name="semester" required>
+	                            <option disabled selected style="display:none">Registrasi Ulang Mentor untuk Semester ...</option>
+	                            <option value="1">Semester Gasal</option>
+	                            <option value="2">Semester Genap</option>
 	                        </select>
 	                    </div>
 	                </div>

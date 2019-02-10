@@ -61,6 +61,7 @@
                                     <th>No.</th>
                                     <th>NRP</th>
                                     <th>Nama</th>
+                                    <th>Jenis Kelamin</th>
                                     <th class="text-right">Aksi</th>
                                 </tr>
                             </thead>
@@ -70,6 +71,10 @@
                                         <td></td>
                                         <td><?php echo $m->NRPmentor ?></td>
                                         <td><?php echo $m->nama ?></td>
+                                        <td>
+                                            <?php if ($m->jenis_kelamin == 'L') echo 'Laki-laki';
+                                            else if ($m->jenis_kelamin == 'P') echo 'Perempuan' ?>
+                                        </td>
                                         <td class="text-right">
                                             <a href="<?php echo base_url(); ?>Admin/profil_mentor/<?php echo $m->NRPmentor.'/'.$tahun_selected.'/'.$semester_selected ?>" class="btn bg-blue btn-xs waves-effect" data-toggle="tooltip" data-placement="top" title="profil mentor"><i class="material-icons">search</i></a>
                                             <button type="button" class="pass-mentor-<?php echo $m->NRPmentor ?> btn bg-green btn-xs waves-effect" data-toggle="tooltip" data-placement="top" title="ubah kata sandi mentor"><i class="material-icons">vpn_key</i></button>

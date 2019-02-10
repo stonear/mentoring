@@ -31,7 +31,12 @@
                         </div>
                         <div class="body">
                             <p>
-                            	Pendaftaran berhasil. Silahkan cek email anda untuk melakukan aktivasi.
+                            	<!-- Pendaftaran berhasil. Silahkan cek email anda untuk melakukan aktivasi. -->
+                                <!-- Ket: tidak jadi ada verifikasi -->
+                                Pendaftaran berhasil.<br><br>
+                                Username: <?php echo $NRPmentor ?><br>
+                                Password: <?php echo $NRPmentor ?><br><br>
+                                <a href="<?php echo base_url(); ?>">Kembali ke halaman awal.</a>
                             </p>
                         </div>
                     </div>

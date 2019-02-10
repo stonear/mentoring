@@ -11,7 +11,7 @@ class Database extends CI_Model
 		$query1 = $this->db->query("INSERT INTO simits_admin(username, password) VALUES (?, ?)", array('aoko', password_hash('mentor1ngITS!', PASSWORD_BCRYPT)));
 		$query2 = $this->db->query("INSERT INTO simits_dosen(NIKdosen, password) VALUES (?, ?)", array('dosen', password_hash('dosen', PASSWORD_BCRYPT)));
 		$query3 = $this->db->query("INSERT INTO simits_dosenpembina(NIKdosenpembina, password) VALUES (?, ?)", array('pembina', password_hash('pembina', PASSWORD_BCRYPT)));
-		$query4 = $this->db->query("INSERT INTO simits_mentor(NRPmentor, password, verified) VALUES (?, ?, ?)", array('mentor', password_hash('mentor', PASSWORD_BCRYPT), 1));
+		$query4 = $this->db->query("INSERT INTO simits_mentor(NRPmentor, password) VALUES (?, ?)", array('mentor', password_hash('mentor', PASSWORD_BCRYPT)));
 	}
 	function auth_admin($username)
 	{
