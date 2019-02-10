@@ -41,11 +41,11 @@
 	                            <option disabled selected style="display:none" >Registrasi Ulang Mentor untuk Semester ...</option>
 								<?php
 								if($semester==1){?>
-									<option value="<?php echo $semester; ?>" selected>Semester Gasal</option>
-	                            	<option value="<?php echo $semester; ?>">Semester Genap</option>
+									<option value="1" selected>Semester Gasal</option>
+	                            	<option value="2">Semester Genap</option>
 								<?php } else {?>
-									<option value="<?php echo $semester; ?>">Semester Gasal</option>
-	                            	<option value="<?php echo $semester; ?>" selected>Semester Genap</option>
+									<option value="1">Semester Gasal</option>
+	                            	<option value="2" selected>Semester Genap</option>
 								<?php }
 								?>
 	                        </select>
