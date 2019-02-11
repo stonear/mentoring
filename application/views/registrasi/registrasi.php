@@ -189,7 +189,7 @@
                                 <fieldset>
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                            <input type="number" class="form-control" id="tahun" name="tahun" required>
+                                            <input type="number" class="form-control" id="tahun" name="tahun" value="<?php echo $year; ?>" required>
                                             <label class="form-label">Pendaftaran Mentor untuk Tahun Ajaran ... (Contoh: 2018)</label>
                                         </div>
                                     </div>
@@ -202,8 +202,15 @@
                                         <div class="form-line">
                                             <select class="form-control show-tick" name="semester" required>
                                                 <option disabled selected style="display:none">Pendaftaran Mentor untuk Semester ... (Contoh: Semester Gasal)</option>
-                                                <option value="1">Semester Gasal</option>
-                                                <option value="2">Semester Genap</option>
+                                                <?php
+                                                if($semester==1){?>
+                                                    <option value="1" selected>Semester Gasal</option>
+                                                    <option value="2">Semester Genap</option>
+                                                <?php } else {?>
+                                                    <option value="1">Semester Gasal</option>
+                                                    <option value="2" selected>Semester Genap</option>
+                                                <?php }
+                                                ?>
                                             </select>
                                         </div>
                                     </div>

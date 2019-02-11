@@ -22,12 +22,24 @@ class Registrasi extends CI_Controller
 			if ($j->setting == 'end') $end = DateTime::createFromFormat('d M Y - H:i', $j->tanggal);
 		}
 		$now = new DateTime('now');
+		$yearnow = date("Y");
+		$month = date("m");
+		if($month<=3 && $month>=1){
+			$semester=2;
+			$year=$yearnow-1;
+		} elseif($month<=10 && $month>=8){
+			$semester=1;
+			$year=$yearnow;
+		}
 
 		if ($now > $start and $now < $end)
 		{
 			$data = array
 			(
-				'title' => 'Registrasi'
+				'title' => 'Registrasi',
+				'year' => $year,
+				'month' => $month,
+				'semester' => $semester,
 			);
 			$this->load->view('registrasi/registrasi', $data);
 		}
