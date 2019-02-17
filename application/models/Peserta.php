@@ -68,5 +68,9 @@ class Peserta extends CI_Model
 			return false;
 		}
 	}
+	function delete_peserta($NRPpeserta)
+	{
+		$query= $this->db->query("DELETE FROM simits_peserta WHERE NRPpeserta=?", array($NRPpeserta));
+	}
 }
 ?>

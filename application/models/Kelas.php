@@ -42,14 +42,19 @@ class Kelas extends CI_Model
 	}
 	function create_kelas($kelas, $dosen, $tahun, $semester)
 	{
-		if ($this->exist_kelas($kelas, $dosen, $tahun, $semester) == false)
+		if ($this->exist_kelas($kelas, $dosen, $tahun, $semester) == true)
+		{
+			$query = $this->db->query("UPDATE simits_kelas SET NIKdosen=? WHERE NOkelas= ? AND tahun = ? AND semester = ?", array($dosen, $kelas, $tahun, $semester));
+			
+		}
+		else
 		{
 			$query = $this->db->query("INSERT INTO simits_kelas(NOkelas, NIKdosen, tahun, semester) VALUES (?, ?, ?, ?)", array($kelas, $dosen, $tahun, $semester));
 		}
 	}
 	function exist_kelas($kelas, $dosen, $tahun, $semester)
 	{
-		$query = $this->db->query("SELECT * FROM simits_kelas WHERE NOkelas = ? AND NIKdosen = ? AND tahun = ? AND semester = ?", array($kelas, $dosen, $tahun, $semester));
+		$query = $this->db->query("SELECT * FROM simits_kelas WHERE NOkelas = ? AND tahun = ? AND semester = ?", array($kelas, $tahun, $semester));
 		if ($query->num_rows() > 0)
 		{
 			return true;
