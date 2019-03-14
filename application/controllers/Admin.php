@@ -2388,8 +2388,7 @@ class Admin extends CI_Controller
 	public function sync2()
 	{
 		set_time_limit(0);
-		// $query = $this->db->query("INSERT INTO simits_peserta(NRPpeserta, nama, IDkelas, IDkelompok, jeniskelamin) VALUES ('511510070001', 'roza', 1, -1, 'P')");
-
+		
 		$tahun = $this->input->post('tahun');
 		$tahun = $this->security->xss_clean($tahun);
 		$semester = $this->input->post('semester');
@@ -2407,6 +2406,76 @@ class Admin extends CI_Controller
 
 		foreach ($listKelas as $lk)
 		{
+			$kelas = $this->api->get_daftar_kelas($lk, $tahun, $semester);
+			foreach($kelas as $k)
+			{
+				if ($k->mata_kuliah->id == $IDagama)
+				{
+					$this->kelas->create_kelas($k->kelas, $k->nip_dosen, $tahun, $semester);
+					$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas);
+
+					$this->dosen->create_dosen($k->nip_dosen, $k->dosen);
+					$mahasiswa_baru = $this->api->get_daftar_mhs($lk, $ida, $k->kelas, $tahun, $semester);
+
+					$mahasiswa_lama = $this->peserta->select_peserta_bykelas($IDkelas[0]->IDkelas);
+					
+					//menghapus mahasiswa lama jika tidak terdapat pada integra
+					foreach($mahasiswa_lama as $ml)
+					{
+						$ada = false;
+						foreach ($mahasiswa_baru as $mb)
+						{
+							if ($ml->NRPpeserta == $mb->nrp) $ada = true;
+						}
+						if (!$ada) $this->peserta->delete_peserta($ml->NRPpeserta);
+					}
+
+					// $mahasiswa = $this->api->get_daftar_mhs($lk, $IDagama, $k->kelas, $tahun, $semester);
+					foreach($mahasiswa_baru as $m)
+					{
+						$biodata = $this->api->get_data_mhs($m->nrp);
+						$this->peserta->create_peserta($m->nrp, $m->nama, $IDkelas[0]->IDkelas, -1, $biodata[0]->jenis_kelamin);
+					}
+				}
+				foreach ($IDagama_baru as $ida)
+				{
+					if ($k->mata_kuliah->id == $ida)
+					{
+						$this->kelas->create_kelas($k->kelas, $k->nip_dosen, $tahun, $semester);
+						$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas);
+
+						$this->dosen->create_dosen($k->nip_dosen, $k->dosen);
+
+						$mahasiswa_baru = $this->api->get_daftar_mhs($lk, $ida, $k->kelas, $tahun, $semester);
+
+						$mahasiswa_lama = $this->peserta->select_peserta_bykelas($IDkelas[0]->IDkelas);
+						
+						//menghapus mahasiswa lama jika tidak terdapat pada integra
+						foreach($mahasiswa_lama as $ml)
+						{
+							$ada = false;
+							foreach ($mahasiswa_baru as $mb)
+							{
+								if ($ml->NRPpeserta == $mb->nrp) $ada = true;
+							}
+							if (!$ada) $this->peserta->delete_peserta($ml->NRPpeserta);
+						}
+
+						foreach($mahasiswa_baru as $m)
+						{
+							$biodata = $this->api->get_data_mhs($m->nrp);
+							if (count($biodata))
+							{
+								$this->peserta->create_peserta($m->nrp, $m->nama, $IDkelas[0]->IDkelas, -1, $biodata[0]->jenis_kelamin);
+							}
+							else
+							{
+								$this->peserta->create_peserta($m->nrp, $m->nama, $IDkelas[0]->IDkelas, -1, '-');
+							}
+						}
+					}
+				}
+			}
 			$kelas = $this->api->get_daftar_kelas($lk, $tahun, $semester);
 			foreach($kelas as $k)
 			{
