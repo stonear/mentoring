@@ -2388,6 +2388,7 @@ class Admin extends CI_Controller
 	public function sync2()
 	{
 		set_time_limit(0);
+		// $query = $this->db->query("INSERT INTO simits_peserta(NRPpeserta, nama, IDkelas, IDkelompok, jeniskelamin) VALUES ('511510070001', 'roza', 1, -1, 'P')");
 
 		$tahun = $this->input->post('tahun');
 		$tahun = $this->security->xss_clean($tahun);
@@ -2416,7 +2417,7 @@ class Admin extends CI_Controller
 
 					$this->dosen->create_dosen($k->nip_dosen, $k->dosen);
 
-					$mahasiswa = $this->api->get_daftar_mhs($lk, $IDagama, $k->kelas, $tahun, $semester);
+					$mahasiswa = $this->api->get_daftar_mhs($lk, $ida, $k->kelas, $tahun, $semester);
 					foreach($mahasiswa as $m)
 					{
 						$biodata = $this->api->get_data_mhs($m->nrp);
