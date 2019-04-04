@@ -83,6 +83,7 @@ class Kelompok extends CI_Model
 	function delete_kelompok($IDkelompok)
 	{
 		$query = $this->db->query("DELETE FROM simits_kelompokmentoring WHERE IDkelompok = ?", array($IDkelompok));
+		$query = $this->db->query("UPDATE simits_peserta SET IDkelompok = -1 WHERE IDkelompok = ?", array($IDkelompok));
 	}
 	function exist_kelompok($no, $mentor, $pembina, $hari, $jenis)
 	{
