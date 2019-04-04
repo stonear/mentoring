@@ -24,10 +24,10 @@ class Registrasi extends CI_Controller
 		$now = new DateTime('now');
 		$yearnow = date("Y");
 		$month = date("m");
-		if($month<=6 && $month>=1){
+		if($month<=3 && $month>=1){
 			$semester=2;
 			$year=$yearnow-1;
-		} elseif($month<=12 && $month>=7){
+		} elseif($month<=10 && $month>=8){
 			$semester=1;
 			$year=$yearnow;
 		}
