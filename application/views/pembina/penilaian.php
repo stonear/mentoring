@@ -53,6 +53,26 @@
             </div>
         </div>
     </div>
+    <div class="col-xs-12">
+        <div class="body">
+            <form autocomplete="off" role="form" action="<?php echo base_url(); ?>Pembina/penilaianpeserta" method="post">
+                <div class="row clearfix">
+                    <?php if ($kelas_selected != -1 && $kelompok_selected == -1): ?>
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h2>Download Penilaian Kelas (xlsx)</h2>
+                                </div>
+                                <div class="body">
+                                    <a href="<?php echo base_url(); ?>Pembina/download_penilaian_kelas/<?php echo $kelas_selected ?>" class="btn btn-primary btn-block waves-effect"><i class="material-icons">file_download</i> UNDUH</a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif ?>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 <?php if(!empty($peserta)): ?>
 	<div class="row clearfix">
@@ -145,18 +165,6 @@
                     </div>
                     <div class="body">
                         <a href="<?php echo base_url(); ?>Pembina/download_penilaian/<?php echo $kelas_selected.'/'.$kelompok_selected ?>" class="btn btn-primary btn-block waves-effect"><i class="material-icons">file_download</i> UNDUH</a>
-                    </div>
-                </div>
-            </div>
-        <?php endif ?>
-        <?php if ($kelas_selected != -1 && $kelompok_selected == -1): ?>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="header">
-                        <h2>Download Penilaian Kelas (xlsx)</h2>
-                    </div>
-                    <div class="body">
-                        <a href="<?php echo base_url(); ?>Pembina/download_penilaian_kelas/<?php echo $kelas_selected ?>" class="btn btn-primary btn-block waves-effect"><i class="material-icons">file_download</i> UNDUH</a>
                     </div>
                 </div>
             </div>

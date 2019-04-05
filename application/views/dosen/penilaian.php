@@ -42,6 +42,24 @@
 			</div>
 		</div>
 	</div>
+	<div class="col-xs-12">
+        <div class="body">
+            <form autocomplete="off" role="form" action="<?php echo base_url(); ?>Pembina/penilaianpeserta" method="post">
+                <div class="row clearfix">
+					<div class="col-md-12">
+						<div class="card">
+							<div class="header">
+								<h2>Download Penilaian (xlsx)</h2>
+							</div>
+							<div class="body">
+								<a href="<?php echo base_url(); ?>Dosen/download_penilaian/<?php echo $kelas_selected ?>" class="btn btn-primary btn-block waves-effect"><i class="material-icons">file_download</i> UNDUH</a>
+							</div>
+						</div>
+					</div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 <?php if(!empty($peserta)): ?>
 	<div class="row clearfix">
@@ -106,16 +124,6 @@
 							</tbody>
 						</table>
 					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-4">
-			<div class="card">
-				<div class="header">
-					<h2>Download Penilaian (xlsx)</h2>
-				</div>
-				<div class="body">
-					<a href="<?php echo base_url(); ?>Dosen/download_penilaian/<?php echo $kelas_selected ?>" class="btn btn-primary btn-block waves-effect"><i class="material-icons">file_download</i> UNDUH</a>
 				</div>
 			</div>
 		</div>
