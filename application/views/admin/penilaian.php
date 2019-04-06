@@ -73,8 +73,29 @@
             </form>
         </div>
     </div>
-</div>
+
 <?php if(!empty($peserta)): ?>
+    <div class="col-xs-12">
+        <div class="body">
+            <form autocomplete="off" role="form" action="<?php echo base_url(); ?>Admin/penilaian" method="post">
+                <div class="row clearfix">
+                    <?php if ($kelompok_selected != -1): ?>
+                        <div class="col-xs-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h2>Download Penilaian Kelompok (xlsx)</h2>
+                                </div>
+                                <div class="body">
+                                    <a href="<?php echo base_url(); ?>Admin/download_penilaian/<?php echo $kelas_selected.'/'.$kelompok_selected ?>" class="btn btn-primary btn-block waves-effect"><i class="material-icons">file_download</i> UNDUH</a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif ?>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 	<div class="row clearfix">
         <div class="col-md-12">
             <div class="card">
@@ -157,18 +178,6 @@
                 </div>
             </div>
         </div>
-        <?php if ($kelompok_selected != -1): ?>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="header">
-                        <h2>Download Penilaian (xlsx)</h2>
-                    </div>
-                    <div class="body">
-                        <a href="<?php echo base_url(); ?>Admin/download_penilaian/<?php echo $kelas_selected.'/'.$kelompok_selected ?>" class="btn btn-primary btn-block waves-effect"><i class="material-icons">file_download</i> UNDUH</a>
-                    </div>
-                </div>
-            </div>
-        <?php endif ?>
         
     </div>
 <?php endif ?>
