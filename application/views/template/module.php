@@ -44,6 +44,12 @@
 			<span>Aspek Penilaian</span>
 		</a>
 	</li>
+	<li class="<?php if($title == 'Verifikasi Penilaian'){echo 'active';} ?>">
+		<a href="<?php echo base_url(); ?>Admin/verifikasipenilaian">
+			<i class="material-icons <?php if($title == 'Verifikasi Penilaian'){echo 'col-light-blue';} ?>">assignment_turned_in</i>
+			<span>Verifikasi Penilaian</span>
+		</a>
+	</li>
 	<li class="<?php if($title == 'Jumlah Pertemuan'){echo 'active';} ?>">
 		<a href="<?php echo base_url(); ?>Admin/jumlahpertemuan">
 			<i class="material-icons <?php if($title == 'Jumlah Pertemuan'){echo 'col-light-blue';} ?>">spellcheck</i>
@@ -143,6 +149,12 @@
 		<a href="<?php echo base_url(); ?>Dosen/penilaian">
 			<i class="material-icons <?php if($title == 'Penilaian'){echo 'col-light-blue';} ?>">assignment</i>
 			<span>Penilaian</span>
+		</a>
+	</li>
+		<li class="<?php if($title == 'Verifikasi Penilaian'){echo 'active';} ?>">
+		<a href="<?php echo base_url(); ?>Dosen/verifikasipenilaian">
+			<i class="material-icons <?php if($title == 'Verifikasi Penilaian'){echo 'col-light-blue';} ?>">assignment_turned_in</i>
+			<span>Verifikasi Penilaian</span>
 		</a>
 	</li>
 	<li class="header">OTHER</li>
