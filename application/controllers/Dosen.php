@@ -19,6 +19,7 @@ class Dosen extends CI_Controller
 		$this->load->model('nilai');
 		$this->load->model('pertemuan');
 		$this->load->model('peserta');
+		$this->load->model('filenilai');
 
 		if($this->session->userdata('status') != 'login' or $this->session->userdata('role') != 'Dosen')
 		{
@@ -477,5 +478,156 @@ class Dosen extends CI_Controller
 		
 		$kelas = $this->kelas->select_kelas_dosen($tahun, $semester, $dosen);
         echo json_encode($kelas);
+	}
+
+	public function verifikasipenilaian()
+	{
+		$dosen = $this->session->userdata('nrp');
+		
+		$tahun = $this->input->post('tahun');
+		$tahun = $this->security->xss_clean($tahun);
+		$semester = $this->input->post('semester');
+		$semester = $this->security->xss_clean($semester);
+		$kelas = $this->input->post('kelas');
+		$kelas = $this->security->xss_clean($kelas);
+
+		$temp_tahun = $this->session->flashdata('tahun');
+		$temp_semester = $this->session->flashdata('semester');
+		$temp_kelas = $this->session->flashdata('kelas');		
+		
+		if (isset($temp_tahun)) $tahun = $temp_tahun;
+		if (isset($temp_semester)) $semester = $temp_semester;
+		if (isset($temp_kelas)) $kelas = $temp_kelas;
+
+		if ($kelas == null)
+		{
+			$data = array
+			(
+				'nama' => $this->data['nama'],
+				'nrp' => $this->data['nrp'],
+				'role' => $this->data['role'],
+				'title' => 'Verifikasi Penilaian',
+				'module' => 'verifikasipenilaian',
+
+				'message' => $this->session->flashdata('message'),
+				'message_bg' => $this->session->flashdata('message_bg'),
+
+				'tahun' => $this->kelas->select_tahun(),
+				'kelas' => $this->kelas->select_kelas($tahun, $semester),
+
+				'tahun_selected' => $tahun,
+				'semester_selected' => $semester,
+				'kelas_selected' => $kelas,
+
+				'filenilai' => $this->filenilai->select_all_bysmt($tahun, $semester)
+			);
+			$this->load->view('master-layout', $data);
+		}
+		else
+		{
+			$data = array
+			(
+				'nama' => $this->data['nama'],
+				'nrp' => $this->data['nrp'],
+				'role' => $this->data['role'],
+				'title' => 'Verifikasi Penilaian',
+				'module' => 'verifikasipenilaian',
+
+				'message' => $this->session->flashdata('message'),
+				'message_bg' => $this->session->flashdata('message_bg'),
+
+				'tahun' => $this->kelas->select_tahun(),
+				'kelas' => $this->kelas->select_kelas($tahun, $semester),
+
+				'tahun_selected' => $tahun,
+				'semester_selected' => $semester,
+				'kelas_selected' => $kelas,
+
+				'filenilai' => $this->filenilai->select_all_bykls($tahun, $semester, $kelas)
+			);
+			$this->load->view('master-layout', $data);	
+		}
+			
+	}
+		
+	public function tambah_fileverifikasipenilaian($tahun, $semester, $kelas)
+	{
+		$tglupload = $this->input->post('tglupload');
+		$tgluplad = $this->security->xss_clean($tglupload);
+		$keterangan = $this->input->post('keterangan');
+		$keterangan = $this->security->xss_clean($keterangan);
+
+		$path = './uploads3/'.$tahun.'/'.$semester.'/'.$kelas.'/';
+		if (!is_dir('uploads3'))
+		{
+			mkdir('./uploads3', 0777, true);
+		}
+		if (!is_dir('uploads3/'.$tahun))
+		{
+			mkdir('./uploads3/'.$tahun, 0777, true);
+		}
+		if (!is_dir('uploads3/'.$tahun.'/'.$semester))
+		{
+			mkdir('./uploads3/'.$tahun.'/'.$semester, 0777, true);
+		}
+		if (!is_dir('uploads3/'.$tahun.'/'.$semester.'/'.$kelas))
+		{
+			mkdir('./uploads3/'.$tahun.'/'.$semester.'/'.$kelas, 0777, true);
+		}
+
+		$config['upload_path']		= $path; 
+		$config['allowed_types']	= 'xlsx';
+		$config['overwrite']		= TRUE;
+		$config['max_size']			= 0;
+		$config['max_width']		= 0;
+		$config['max_height']		= 0;
+		$config['file_ext_tolower']	= TRUE;
+		$config['remove_spaces'] = TRUE;
+
+		$this->load->library('upload', $config);
+
+		if ( ! $this->upload->do_upload('file'))
+		{
+			$this->session->set_flashdata('message', $this->upload->display_errors());
+			$this->session->set_flashdata('message_bg', 'bg-red');
+		}
+		else
+		{ 
+			$linkfile = $this->filenilai->path2file($tahun, $semester, $kelas);
+			foreach ($linkfile as $l)
+			{
+				$path = str_replace(base_url(), "", $l->linknilai);
+				// echo $pasth;
+				unlink($path);
+			}
+			$data = array('upload_data' => $this->upload->data());
+			$this->filenilai->create_file($tahun, $semester, $kelas, base_url().'uploads3/'.$tahun.'/'.$semester.'/'.$kelas.'/'.$data['upload_data']['file_name'], $tglupload, $keterangan);
+			$this->session->set_flashdata('message', 'Berhasil mengupdate file presensi');
+			$this->session->set_flashdata('message_bg', 'bg-green');
+		}
+
+		$this->session->set_flashdata('tahun', $tahun);
+		$this->session->set_flashdata('semester', $semester);
+		$this->session->set_flashdata('kelas', $kelas);
+		redirect('Dosen/verifikasipenilaian');
+	}
+	public function hapus_fileverifikasipenilaian($tahun, $semester, $kelas)
+	{
+		$linkfile = $this->filenilai->path2file($tahun, $semester, $kelas);
+		foreach ($linkfile as $l)
+		{
+			$path = str_replace(base_url(), "", $l->linknilai);
+			echo $path;
+			unlink($path);
+		}
+		$this->filenilai->delete_file($tahun, $semester, $kelas);
+
+		$this->session->set_flashdata('message', 'Berhasil menghapus file penilaian');
+		$this->session->set_flashdata('message_bg', 'bg-green');
+
+		$this->session->set_flashdata('tahun', $tahun);
+		$this->session->set_flashdata('semester', $semester);
+		$this->session->set_flashdata('kelas', $kelas);
+		redirect('Dosen/verifikasipenilaian');
 	}
 }
