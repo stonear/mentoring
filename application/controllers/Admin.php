@@ -2533,18 +2533,23 @@ class Admin extends CI_Controller
 
 		$IDagama = 'IG1101';
 		$IDagama_baru = array('UG0901', 'UG1901', 'UG4901');
-
+		$flag = true;
 		foreach ($listKelas as $lk)
 		{
 			$kelas = $this->api->get_daftar_kelas($lk, $tahun, $semester);
+			// var_dump($kelas);
 			foreach($kelas as $k)
 			{
+				if ($k->nip_dosen == NULL) {
+					$k->nip_dosen = '---------';
+					$flag = false;
+				}
 				if ($k->mata_kuliah->id == $IDagama)
 				{
 					$this->kelas->create_kelas($k->kelas, $k->nip_dosen, $tahun, $semester);
 					$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas);
 
-					$this->dosen->create_dosen($k->nip_dosen, $k->dosen);
+					if ($flag) {$this->dosen->create_dosen($k->nip_dosen, $k->dosen);}
 					$mahasiswa_baru = $this->api->get_daftar_mhs($lk, $ida, $k->kelas, $tahun, $semester);
 
 					$mahasiswa_lama = $this->peserta->select_peserta_bykelas($IDkelas[0]->IDkelas);
@@ -2574,7 +2579,7 @@ class Admin extends CI_Controller
 						$this->kelas->create_kelas($k->kelas, $k->nip_dosen, $tahun, $semester);
 						$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas);
 
-						$this->dosen->create_dosen($k->nip_dosen, $k->dosen);
+						if ($flag) {$this->dosen->create_dosen($k->nip_dosen, $k->dosen);}
 
 						$mahasiswa_baru = $this->api->get_daftar_mhs($lk, $ida, $k->kelas, $tahun, $semester);
 
@@ -2614,7 +2619,7 @@ class Admin extends CI_Controller
 					$this->kelas->create_kelas($k->kelas, $k->nip_dosen, $tahun, $semester);
 					$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas);
 
-					$this->dosen->create_dosen($k->nip_dosen, $k->dosen);
+					if ($flag) {$this->dosen->create_dosen($k->nip_dosen, $k->dosen);}
 
 					$mahasiswa = $this->api->get_daftar_mhs($lk, $ida, $k->kelas, $tahun, $semester);
 					foreach($mahasiswa as $m)
@@ -2630,7 +2635,7 @@ class Admin extends CI_Controller
 						$this->kelas->create_kelas($k->kelas, $k->nip_dosen, $tahun, $semester);
 						$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas);
 
-						$this->dosen->create_dosen($k->nip_dosen, $k->dosen);
+						if ($flag) {$this->dosen->create_dosen($k->nip_dosen, $k->dosen);}
 
 						$mahasiswa = $this->api->get_daftar_mhs($lk, $ida, $k->kelas, $tahun, $semester);
 						foreach($mahasiswa as $m)
