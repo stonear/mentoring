@@ -2534,13 +2534,13 @@ class Admin extends CI_Controller
 
 		$IDagama = 'IG1101';
 		$IDagama_baru = array('UG0901', 'UG1901', 'UG4901');
-		$flag = true;
 		foreach ($listKelas as $lk)
 		{
 			$kelas = $this->api->get_daftar_kelas($lk, $tahun, $semester);
 			// var_dump($kelas);
 			foreach($kelas as $k)
 			{
+				$flag = true;
 				if ($k->nip_dosen == NULL) {
 					$k->nip_dosen = '---------';
 					$flag = false;
@@ -2615,6 +2615,11 @@ class Admin extends CI_Controller
 			$kelas = $this->api->get_daftar_kelas($lk, $tahun, $semester);
 			foreach($kelas as $k)
 			{
+				$flag = true;
+				if ($k->nip_dosen == NULL) {
+					$k->nip_dosen = '---------';
+					$flag = false;
+				}
 				if ($k->mata_kuliah->id == $IDagama)
 				{
 					$this->kelas->create_kelas($k->kelas, $k->nip_dosen, $tahun, $semester);
