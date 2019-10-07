@@ -17,7 +17,7 @@ class Mentor_model extends CI_Model
 	}
 	function select_mentor3($tahun, $semester)
 	{
-		$query = $this->db->query("SELECT m.NRPmentor, m.nama, m.jenis_kelamin FROM simits_mentor AS m, simits_smtmentor AS sm WHERE m.NRPmentor = sm.nrp AND sm.tahun = ? AND sm.semester = ?", array($tahun, $semester));
+		$query = $this->db->query("SELECT m.NRPmentor, m.nama, m.jenis_kelamin, m.no_telp, m.id_line, m.email FROM simits_mentor AS m, simits_smtmentor AS sm WHERE m.NRPmentor = sm.nrp AND sm.tahun = ? AND sm.semester = ?", array($tahun, $semester));
 		return $query->result();
 	}
 	function select_mentor_byNRP($nrp)
@@ -34,9 +34,9 @@ class Mentor_model extends CI_Model
 	{
 		$query = $this->db->query("INSERT INTO simits_mentor(NRPmentor, nama, jenis_kelamin, password, verified) VALUES (?, ?, ?, ?, ?)", array($nrp, $nama, $jenis_kelamin, password_hash($nrp, PASSWORD_BCRYPT), 1));
 	}
-	function registrasi($NRPmentor, $nama, $jenis_kelamin, $no_telp, $email, $alamat, $pernah_jadi_mentor, $cv, $password, $linkfoto, $kode_verifikasi, $verified, $nilai)
+	function registrasi($NRPmentor, $nama, $jenis_kelamin, $no_telp, $idline, $email, $alamat, $pernah_jadi_mentor, $cv, $password, $linkfoto, $kode_verifikasi, $verified, $nilai)
 	{
-		$query = $this->db->query("INSERT INTO simits_mentor(NRPmentor, nama, jenis_kelamin, no_telp, email, alamat, pernah_jadi_mentor, cv, password, linkfoto, kode_verifikasi, verified, nilai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array($NRPmentor, $nama, $jenis_kelamin, $no_telp, $email, $alamat, $pernah_jadi_mentor, $cv, $password, $linkfoto, $kode_verifikasi, $verified, $nilai));
+		$query = $this->db->query("INSERT INTO simits_mentor(NRPmentor, nama, jenis_kelamin, no_telp, id_line, email, alamat, pernah_jadi_mentor, cv, password, linkfoto, kode_verifikasi, verified, nilai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array($NRPmentor, $nama, $jenis_kelamin, $no_telp, $idline, $email, $alamat, $pernah_jadi_mentor, $cv, $password, $linkfoto, $kode_verifikasi, $verified, $nilai));
 	}
 	function update_passwordmentor($nrp, $password)
 	{

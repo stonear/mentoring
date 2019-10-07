@@ -90,6 +90,8 @@ class Registrasi extends CI_Controller
 
 		$no_telp = $this->input->post('telp');
 		$no_telp = $this->security->xss_clean($no_telp);
+		$idline = $this->input->post('line');
+		$idline = $this->security->xss_clean($idline);
 		$email = $this->input->post('email');
 		$email = $this->security->xss_clean($email);
 		$alamat = $this->input->post('alamat');
@@ -138,7 +140,7 @@ class Registrasi extends CI_Controller
 				// $verified = 0;
 				// tidak jadi ada verifikasi email
 				$verified = 1;
-				$this->mentor_model->registrasi($NRPmentor, $nama, $jenis_kelamin, $no_telp, $email, $alamat, $pernah_jadi_mentor, $cv, $password, $linkfoto, $kode_verifikasi, $verified, $nilai);
+				$this->mentor_model->registrasi($NRPmentor, $nama, $jenis_kelamin, $no_telp, $idline, $email, $alamat, $pernah_jadi_mentor, $cv, $password, $linkfoto, $kode_verifikasi, $verified, $nilai);
 
 				$this->smtmentor->registrasi($NRPmentor, $tahun, $semester);
 

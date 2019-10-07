@@ -1983,13 +1983,19 @@ class Admin extends CI_Controller
 		$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
 		$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
 		$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
 
 		$objPHPExcel->getActiveSheet()->setCellValue('A2', 'NO');
 		$objPHPExcel->getActiveSheet()->setCellValue('B2', 'NRP');
 		$objPHPExcel->getActiveSheet()->setCellValue('C2', 'NAMA');
 		$objPHPExcel->getActiveSheet()->setCellValue('D2', 'JENIS KELAMIN');
-		$objPHPExcel->getActiveSheet()->getStyle('A2:D2')->applyFromArray($fontHeader);
-		$objPHPExcel->getActiveSheet()->getStyle('A2:D2')->applyFromArray($styleArray);
+		$objPHPExcel->getActiveSheet()->setCellValue('E2', 'NO. WA');
+		$objPHPExcel->getActiveSheet()->setCellValue('F2', 'ID LINE');
+		$objPHPExcel->getActiveSheet()->setCellValue('G2', 'EMAIL');
+		$objPHPExcel->getActiveSheet()->getStyle('A2:G2')->applyFromArray($fontHeader);
+		$objPHPExcel->getActiveSheet()->getStyle('A2:G2')->applyFromArray($styleArray);
 
 		$mentor = $this->mentor_model->select_mentor3($tahun, $semester);
 
@@ -2001,7 +2007,10 @@ class Admin extends CI_Controller
 			$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $m->NRPmentor);
 			$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $m->nama);
 			$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $m->jenis_kelamin);
-			$objPHPExcel->getActiveSheet()->getStyle('A'.$row.':D'.$row)->applyFromArray($styleArray);
+			$objPHPExcel->getActiveSheet()->setCellValue('E'.$row, $m->no_telp);
+			$objPHPExcel->getActiveSheet()->setCellValue('F'.$row, $m->id_line);
+			$objPHPExcel->getActiveSheet()->setCellValue('G'.$row, $m->email);
+			$objPHPExcel->getActiveSheet()->getStyle('A'.$row.':G'.$row)->applyFromArray($styleArray);
 			$row++;
 		}
 
@@ -2530,7 +2539,7 @@ class Admin extends CI_Controller
 		// $listKelas = array('__TPB', '13030', '21030', '21039', '22030', '22039', '23030', '24031', '31030', '31041', '21038', '22038', '22040', '31031', '31032', '31040');
 		// $kelas = $this->api->get_daftar_kelas($idUPMB, $tahun, $semester);
 
-		$listKelas = array('__TPB', '13030', '21030', '21038', '21039', '22030', '22038', '22039', '23030', '23039', '24030', '24031', '31030', '31031', '31032', '31033', '31038', '31039', '61030', '62030', '63030', '64030', '71030', '72030', '73030', '74030', '31040', '31041', '33040', '65040', '71040', '72040', '73040', '74040');
+		$listKelas = array('__TPB', '13030', '21030', '21038', '21039', '22030', '22038', '22039', '23030', '23039', '24030', '24031', '31030', '31031', '31032', '31033', '31038', '31039', '61030', '62030', '63030', '64030', '71030', '72030', '73030', '74030', '31040', '31041', '33040', '65040', '71040', '72040', '73040', '74040', '31043', '21041', '23041', '13041');
 
 		$IDagama = 'IG1101';
 		$IDagama_baru = array('UG0901', 'UG1901', 'UG4901');

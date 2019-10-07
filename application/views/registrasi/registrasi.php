@@ -124,7 +124,13 @@
                                     <div class="form-group form-float">
                                         <div class="form-line">
                                             <input type="text" class="form-control" name="telp" pattern="[0-9]{11,13}" required>
-                                            <label class="form-label">No Telepon (Contoh: 081249262464)</label>
+                                            <label class="form-label">No. WA (Contoh: 081249262464)</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="line" required>
+                                            <label class="form-label">ID Line (Contoh: yoshima_shima)</label>
                                         </div>
                                     </div>
                                     <div class="form-group form-float">
