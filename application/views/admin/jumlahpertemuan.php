@@ -1,4 +1,15 @@
 <div class="row clearfix">
+    <div class="col-xs-12">
+        <div class="card">
+            <div class="body">
+            	<blockquote class="m-b-25">
+            		<p><b>[Informasi]</b> <b>Tambah Pertemuan</b> membutuhkan waktu beberapa saat. Dimohon untuk menunggu.</p>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row clearfix">
     <div class="col-xs-12 text-right tambah-pertemuan">
         <button type="button" class="btn bg-light-blue waves-effect" data-toggle="tooltip" data-placement="left" title="tambah pertemuan"><i class="material-icons">add</i> Tambah Pertemuan</button>
         <br><br>

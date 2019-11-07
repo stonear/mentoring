@@ -2378,7 +2378,6 @@ class Admin extends CI_Controller
 	public function tambah_pertemuan()
 	{
 		set_time_limit(0);
-
 		$tahun = $this->input->post('tahun');
 		$tahun = $this->security->xss_clean($tahun);
 		$semester = $this->input->post('semester');
@@ -2388,11 +2387,12 @@ class Admin extends CI_Controller
 
 		if ($this->pertemuan->exist_pertemuan($tahun, $semester))
 		{
+			die("ok");
 			$this->session->set_flashdata('message', 'Data jumlah pertemuan tahun '.$tahun.' semester '.$semester.' sudah ada');
 			$this->session->set_flashdata('message_bg', 'bg-red');
 			redirect('Admin/jumlahpertemuan');
 		}
-
+		
 		$this->pertemuan->create_pertemuan($tahun, $semester, $jumlah);
 
 		$peserta = $this->peserta->select_by_tahunsemester($tahun, $semester);
@@ -2411,7 +2411,7 @@ class Admin extends CI_Controller
 				$this->jadwal->create_jadwal($i, $k->id);
 			}
 		}
-
+		// die(count($peserta) . ' ' . count($kelompok));
 		$this->session->set_flashdata('message', 'Berhasil menambah data jumlah pertemuan');
 		$this->session->set_flashdata('message_bg', 'bg-green');
 		redirect('Admin/jumlahpertemuan');
