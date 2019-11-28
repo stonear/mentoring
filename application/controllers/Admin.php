@@ -2556,9 +2556,17 @@ class Admin extends CI_Controller
 				}
 				if ($k->mata_kuliah->id == $IDagama)
 				{
-					$this->kelas->create_kelas($k->kelas, $k->nip_dosen, $tahun, $semester);
-					$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas);
-
+					if($lk == $idUPMB)
+					{
+						$this->kelas->create_kelas($k->kelas, $k->nip_dosen, $tahun, $semester);
+						$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas);
+					}
+					else
+					{
+						$this->kelas->create_kelas($k->kelas . '_' . $lk, $k->nip_dosen, $tahun, $semester);
+						$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas . '_' . $lk);
+					}
+					
 					if ($flag) {$this->dosen->create_dosen($k->nip_dosen, $k->dosen);}
 					$mahasiswa_baru = $this->api->get_daftar_mhs($lk, $ida, $k->kelas, $tahun, $semester);
 
@@ -2586,9 +2594,17 @@ class Admin extends CI_Controller
 				{
 					if ($k->mata_kuliah->id == $ida)
 					{
-						$this->kelas->create_kelas($k->kelas, $k->nip_dosen, $tahun, $semester);
-						$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas);
-
+						if($lk == $idUPMB)
+						{
+							$this->kelas->create_kelas($k->kelas, $k->nip_dosen, $tahun, $semester);
+							$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas);
+						}
+						else
+						{
+							$this->kelas->create_kelas($k->kelas . '_' . $lk, $k->nip_dosen, $tahun, $semester);
+							$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas . '_' . $lk);
+						}
+						
 						if ($flag) {$this->dosen->create_dosen($k->nip_dosen, $k->dosen);}
 
 						$mahasiswa_baru = $this->api->get_daftar_mhs($lk, $ida, $k->kelas, $tahun, $semester);
@@ -2631,8 +2647,16 @@ class Admin extends CI_Controller
 				}
 				if ($k->mata_kuliah->id == $IDagama)
 				{
-					$this->kelas->create_kelas($k->kelas, $k->nip_dosen, $tahun, $semester);
-					$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas);
+					if($lk == $idUPMB)
+					{
+						$this->kelas->create_kelas($k->kelas, $k->nip_dosen, $tahun, $semester);
+						$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas);
+					}
+					else
+					{
+						$this->kelas->create_kelas($k->kelas . '_' . $lk, $k->nip_dosen, $tahun, $semester);
+						$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas . '_' . $lk);
+					}
 
 					if ($flag) {$this->dosen->create_dosen($k->nip_dosen, $k->dosen);}
 
@@ -2647,8 +2671,16 @@ class Admin extends CI_Controller
 				{
 					if ($k->mata_kuliah->id == $ida)
 					{
-						$this->kelas->create_kelas($k->kelas, $k->nip_dosen, $tahun, $semester);
-						$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas);
+						if($lk == $idUPMB)
+						{
+							$this->kelas->create_kelas($k->kelas, $k->nip_dosen, $tahun, $semester);
+							$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas);
+						}
+						else
+						{
+							$this->kelas->create_kelas($k->kelas . '_' . $lk, $k->nip_dosen, $tahun, $semester);
+							$IDkelas = $this->kelas->select_IDkelas($tahun, $semester, $k->kelas . '_' . $lk);
+						}
 
 						if ($flag) {$this->dosen->create_dosen($k->nip_dosen, $k->dosen);}
 
