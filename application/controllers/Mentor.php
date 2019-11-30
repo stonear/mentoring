@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+ini_set('max_execution_time', 0); 
 class Mentor extends CI_Controller
 {
 	function __construct()
@@ -147,7 +147,6 @@ class Mentor extends CI_Controller
 			$tanggal = $this->input->post($i);
 			$this->jadwal->update_jadwal($kelompok, $i, $tanggal);
 		}
-
 		$this->session->set_flashdata('tahun', $tahun);
 		$this->session->set_flashdata('semester', $semester);
 		$this->session->set_flashdata('kelompok', $kelompok);

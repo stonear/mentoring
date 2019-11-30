@@ -24,7 +24,8 @@ class Absen extends CI_Model
 	}
 	function update_absen($NRPpeserta, $mingguke, $statuskehadiran)
 	{
-		if ($this->exist_absen($mingguke, $NRPpeserta) == true)
+		$marker = $this->exist_absen($mingguke, $NRPpeserta);
+		if ($marker == true)
 		{
 			$query = $this->db->query("UPDATE simits_absen SET statuskehadiran = ? WHERE NRPpeserta = ? AND mingguke = ?", array($statuskehadiran, $NRPpeserta, $mingguke));
 		}
@@ -35,7 +36,7 @@ class Absen extends CI_Model
 	}
 	function exist_absen($mingguke, $NRPpeserta)
 	{
-		$query = $this->db->query("SELECT * FROM simits_absen WHERE mingguke = ? AND NRPpeserta = ?", array($mingguke, $NRPpeserta));
+		$query = $this->db->query("SELECT mingguke FROM simits_absen WHERE mingguke = ? AND NRPpeserta = ?", array($mingguke, $NRPpeserta));
 		if ($query->num_rows() > 0)
 		{
 			return true;
