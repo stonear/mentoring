@@ -108,6 +108,18 @@
 					</div>
 					<div class="row clearfix">
 						<div class="col-lg-3 col-md-3 col-sm-4 col-xs-5 form-control-label">
+							<label for="line">ID Line</label>
+						</div>
+						<div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
+							<div class="form-group">
+								<div class="form-line">
+									<input type="text" id="line" name="line" class="form-control" placeholder="masukkan id line" value="<?php echo $mentor[0]->id_line ?>">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row clearfix">
+						<div class="col-lg-3 col-md-3 col-sm-4 col-xs-5 form-control-label">
 							<label for="email">e-Mail<span class="col-red"> *</span></label>
 						</div>
 						<div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
