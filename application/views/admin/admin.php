@@ -20,7 +20,7 @@
                         </thead>
                         <tbody>
                             <?php foreach ($admin as $a): ?>
-                                <?php if ($a->username != 'aoko'): ?>
+                                
                                 <tr>
                                     <td></td>
                                     <td><?php echo $a->username ?></td>
@@ -29,7 +29,7 @@
                                         <button type="button" class="hapus-admin-<?php echo $a->username ?> btn btn-danger btn-xs waves-effect" data-toggle="tooltip" data-placement="top" title="hapus administrator"><i class="material-icons">delete</i></button>
                                     </td>
                                 </tr>
-                                <?php endif; ?>
+                                
                             <?php endforeach; ?>
                         </tbody>
                     </table>
