@@ -1,8 +1,10 @@
 <div class="row clearfix">
-    <div class="col-xs-12 text-right tambah-admin">
-        <button type="button" class="btn bg-light-blue waves-effect" data-toggle="tooltip" data-placement="left" title="tambah administrator"><i class="material-icons">add</i> Tambah Administrator</button>
-        <br><br>
-    </div>
+    <?php if ($nama == 'aoko'): ?>
+        <div class="col-xs-12 text-right tambah-admin">
+            <button type="button" class="btn bg-light-blue waves-effect" data-toggle="tooltip" data-placement="left" title="tambah administrator"><i class="material-icons">add</i> Tambah Administrator</button>
+            <br><br>
+        </div>
+    <?php endif; ?>
     <div class="col-xs-12">
         <div class="card">
             <div class="header">
